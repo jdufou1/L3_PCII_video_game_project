@@ -1,14 +1,14 @@
 package pcii_project.models;
 
-public class Cars {
-	
+public class Horizon {
+
 	/* The constants */
 	
 	
 	/* The attributes */
 	
 	/* Constructor */
-	public Cars() {
+	public Horizon() {
 		
 	}
 }
