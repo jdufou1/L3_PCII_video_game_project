@@ -8,11 +8,12 @@ public class Main {
 
 	
 	private Model model;
-	private Window view;
+	private Dispaly view;
 	private Controls controls;
 	
 	public Main() {
 		model = new Model();
+		view = new Display ();
 	}
 	
 	public static void main(String[] args) {
