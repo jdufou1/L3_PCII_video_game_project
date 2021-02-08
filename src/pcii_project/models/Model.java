@@ -44,9 +44,43 @@ public class Model {
 		return road;
 	}
 	
+	/* static */
+	
+	public static int getMiddleWidth() {
+		return WIDTH_MAX - WIDTH_MIN;
+	}
+	
+	
+	
+	/* debbuging display */
+	
+	public void debbug_display() {
+		System.out.println("PARAMETRE GENERAUX");
+		System.out.println("hauteur minimale : " + HEIGHT_MIN);
+		System.out.println("hauteur maximale : " + HEIGHT_MAX);
+		System.out.println("largeur minimale : " + WIDTH_MIN);
+		System.out.println("largeur maximale : " + WIDTH_MAX);
+		
+		System.out.println("Borne inferieur limite : " + LOWER_BOUND_CARS);
+		System.out.println("Borne superieur limite : " + UPPER_BOUND_CARS);
+		
+		System.out.println("PARAMETRE VOITURE");
+		System.out.println("position : " + cars.getPlacement_x());
+		
+		System.out.println("PARAMETRE PARCOURS");
+		System.out.println("distance entre deux points hauteur : " + Road.HEIGHT_BETWEEN_TWO_POINTS);
+		System.out.println("distance entre deux points largeur : " + Road.WIDTH_BETWEEN_TWO_POINTS);
+		System.out.println("premier points : ");
+		System.out.println(road.getRoad_points());
+	}
+	
+	
+	
+	
+	
 	
 	public static void main(String[] args) {
 		Model model = new Model();
-		System.out.println(model.cars.getPlacement_x());
+		model.debbug_display();
 	}
 }
