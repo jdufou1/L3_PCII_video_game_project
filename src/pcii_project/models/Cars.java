@@ -13,13 +13,10 @@ public class Cars {
 	
 	private int placement_x;
 	
-	
 	/* Constructor */
 	public Cars() {
 		placement_x = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (WIDTH_MAX_CARS / 2);
 	}
-	
-	
 	
 	/* getters and setters */
 	

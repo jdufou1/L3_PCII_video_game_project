@@ -51,10 +51,37 @@ public class Road {
 		
 		// boucle to add point up to Horizon
 		while(height_tmp  < Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS) {
-			int with_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
-			road_points.add(new Point(Model.getMiddleWidth() + with_alea, height_tmp));
+			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
+			road_points.add(new Point(Model.getMiddleWidth() + width_alea, height_tmp));
 			height_tmp += HEIGHT_BETWEEN_TWO_POINTS;
 		}	
+	}
+	
+	public void update_road() {
+		// Creation of the points
+		int current_score = road_points.get(road_points.size() - 1).y ;
+
+		boolean check = current_score < (score_y + Model.HEIGHT_MAX);
+		while(check) {
+			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
+			current_score += HEIGHT_BETWEEN_TWO_POINTS;
+			road_points.add(new Point(width_alea , current_score));
+			check = current_score < (score_y + Model.HEIGHT_MAX);
+		}
+		
+		// Removing points
+		int cpt = 0;
+		check = true;
+		while(cpt < road_points.size() && check) {
+			if(road_points.get(cpt).y < score_y + Model.HEIGHT_MIN + HEIGHT_BETWEEN_TWO_POINTS) {
+				road_points.remove(cpt);
+			}
+			else {
+				check = false;
+			}
+			cpt++;
+		}
+				
 	}
 	
 	
@@ -63,6 +90,34 @@ public class Road {
 	public ArrayList<Point> getRoad_points() {
 		return road_points;
 	}
+	
+	public ArrayList<Point> getRoad_points_with_score(int score){
+		ArrayList<Point> res = new ArrayList<Point>();
+		for(Point point : road_points) {
+			res.add(new Point(point.x , point.y - score_y));			
+		}
+		return res;
+	}
+	
+	
+	/*
+	 * Model points to graphics points
+	 * */
+	public ArrayList<Point> getRoad_points_with_dimension(int max_height, int max_width){
+		ArrayList<Point> current_points = getRoad_points_with_score(score_y);
+		ArrayList<Point> res = new ArrayList<Point>();
+		for(Point point : current_points) {
+			double relative_x = point.x / (Model.WIDTH_MAX - Model.WIDTH_MIN);
+			double relative_y = point.y / (Model.HEIGHT_MAX - Model.HEIGHT_MIN);
+			
+			int x = (int) relative_x * max_width;
+			int y = (int) relative_y * max_height;
+			
+			res.add(new Point(x,y));
+		}
+		return res;
+	}
+	
 	
 
 }
@@ -82,6 +137,7 @@ class MoveThread extends Thread{
 			while(true) {
 					Thread.sleep(10);
 					road.move();
+					road.update_road();
 			}
 		}
 		catch(Exception e) {	

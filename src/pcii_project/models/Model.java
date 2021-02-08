@@ -74,11 +74,6 @@ public class Model {
 		System.out.println(road.getRoad_points());
 	}
 	
-	
-	
-	
-	
-	
 	public static void main(String[] args) {
 		Model model = new Model();
 		model.debbug_display();
