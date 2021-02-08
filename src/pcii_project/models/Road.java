@@ -26,6 +26,8 @@ public class Road {
 		score_y = 0;
 		random = new Random();
 		create_road();
+		
+		(new Thread(new MoveThread(this))).start();
 	}
 	
 	
@@ -33,9 +35,6 @@ public class Road {
 	public void move() {
 		score_y += MOVE_STEP_VALUE;
 	}
-	
-	
-	
 	
 	/* CRUD Road */
 	
@@ -48,7 +47,7 @@ public class Road {
 		Point start_point = new Point((int)((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2),Model.HEIGHT_MIN); // first point
 		road_points.add(start_point);
 		
-		int height_tmp = score_y; // placement of the other points without changing score_y 
+		int height_tmp = score_y + HEIGHT_BETWEEN_TWO_POINTS; // placement of the other points without changing score_y 
 		
 		// boucle to add point up to Horizon
 		while(height_tmp  < Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS) {
@@ -58,18 +57,19 @@ public class Road {
 		}	
 	}
 	
+	
 	/* getters and setters */
 	
 	public ArrayList<Point> getRoad_points() {
 		return road_points;
 	}
 	
+
 }
 
 class MoveThread extends Thread{
 	/* Attributs */
 	private Road road;
-	
 	
 	/* Constructeurs */
 	public MoveThread(Road road) {
