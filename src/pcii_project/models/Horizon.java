@@ -8,6 +8,10 @@ public class Horizon {
 	
 	/* The attributes */
 	
+	public int get_horizon_with_dimension(int height_max) {
+		double relative = HEIGHT_HORIZON / (Model.HEIGHT_MAX - Model.HEIGHT_MIN);
+		return (int) (height_max * relative);
+	}
 	
 	
 	/* Constructor */
