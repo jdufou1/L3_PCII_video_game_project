@@ -54,10 +54,6 @@ public class Window extends JFrame{
         jSplitPane.setDividerLocation(Horizon.HEIGHT_HORIZON);//D�finir la position de la ligne de s�paration
         setContentPane(jSplitPane);
 
-        /*border color
-        horizen.setBorder(BorderFactory.createLineBorder(Color.blue));
-        carRoute.setBorder(BorderFactory.createLineBorder(Color.green));
-        */
         horizen.setBackground(new java.awt.Color(135,206,235));
         
     }

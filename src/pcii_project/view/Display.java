@@ -37,6 +37,10 @@ public class Display extends JPanel{
     	this.setBackground(java.awt.Color.green);
     	
     }
+    
+    public Window getWindow() {
+    	return this.window;
+    }
 	
 	
 	

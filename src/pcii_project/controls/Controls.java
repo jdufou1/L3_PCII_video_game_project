@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import pcii_project.models.Model;
 import pcii_project.view.Display;
 import pcii_project.view.Window;
 
@@ -17,17 +18,16 @@ public class Controls  implements KeyListener {
 	 * @param args
 	 */
 	
-	private Window window;
 	private Display view;
+	private Model model;
 
 
-	public Controls(Window window, Display view) {
-		//this.state = state;
-		this.window = window;
+	public Controls(Model model,Display view) {
+		this.model = model;
 		this.view = view;
-		window.addKeyListener(this);
+		view.getWindow().addKeyListener(this);
 
-		window.addWindowListener(new WindowAdapter(){
+		view.getWindow().addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){  
 	          System.exit(0);  
 			}
@@ -40,12 +40,14 @@ public class Controls  implements KeyListener {
 		
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT){
 			System.out.println("RIGHT");
-			//view.repaint();
+			model.getCars().move_right();
+			view.repaint();
 		}
 		
 		if(e.getKeyCode()==KeyEvent.VK_LEFT){
 			System.out.println("LEFT");
-			//view.repaint();
+			model.getCars().move_left();
+			view.repaint();
 		}	
 	}
 	
