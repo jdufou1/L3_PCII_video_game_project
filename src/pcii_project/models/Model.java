@@ -47,7 +47,7 @@ public class Model {
 	/* static */
 	
 	public static int getMiddleWidth() {
-		return WIDTH_MAX - WIDTH_MIN;
+		return (WIDTH_MAX - WIDTH_MIN) / 2;
 	}
 	
 	
