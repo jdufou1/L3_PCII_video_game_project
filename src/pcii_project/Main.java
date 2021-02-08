@@ -3,6 +3,7 @@ package pcii_project;
 import pcii_project.view.*;
 import pcii_project.controls.Controls;
 import pcii_project.models.Model;
+import pcii_project.view.Display;
 
 public class Main {
 
