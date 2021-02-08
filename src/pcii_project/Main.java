@@ -9,8 +9,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Model model = new Model();
-		Cars car = new Cars();
-		Display view = new Display(car);
+		Display view = new Display(model);
 		
 	}
 

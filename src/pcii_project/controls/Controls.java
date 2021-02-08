@@ -40,12 +40,12 @@ public class Controls  implements KeyListener {
 		
 		if(e.getKeyCode()==KeyEvent.VK_RIGHT){
 			System.out.println("RIGHT");
-			view.repaint();
+			//view.repaint();
 		}
 		
 		if(e.getKeyCode()==KeyEvent.VK_LEFT){
 			System.out.println("LEFT");
-			view.repaint();
+			//view.repaint();
 		}	
 	}
 	

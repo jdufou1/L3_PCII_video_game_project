@@ -21,17 +21,17 @@ public class Display extends JPanel{
 	/*variable*/
 	public int x_voiture = window.LARGE_FENETRE/2;
 	
-	private Cars car;
+	private Model model;
 	
 	
 	
 	/*constructeur*/
-    public Display(Cars c)  {
+    public Display(Model model)  {
 	
     	window = new Window();
         window.carRoute.add(this);
         
-        this.car = c;
+        this.model = model;
         
     	this.setPreferredSize(new Dimension(Model.WIDTH_MAX,Model.HEIGHT_MAX-Horizon.HEIGHT_HORIZON));
     	this.setBackground(java.awt.Color.green);
@@ -44,7 +44,7 @@ public class Display extends JPanel{
     	super.paint(g);
     	
     	//voiture
-    	g.fillRect(car.getPlacement_x(), Y_VOITURE+HAUT_VOITURE/2, HAUT_VOITURE, LARGE_VOITURE);
+    	g.fillRect(model.getCars().getPlacement_x(), Y_VOITURE+HAUT_VOITURE/2, HAUT_VOITURE, LARGE_VOITURE);
     	//g.fillRect(x_voiture+HAUT_VOITURE/2, Y_VOITURE+LARGE_VOITURE/2, LARGE_VOITURE, HAUT_VOITURE );
     	
     	//parcours
