@@ -10,8 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import pcii_project.models.Horizon;
+import pcii_project.models.Model;
+
 
 public class Window extends JFrame{
+	
 	/*constante*/
 	public static final int HAUT_FENETRE = 400;
 	public static final int LARGE_FENETRE = 600;
@@ -25,15 +29,15 @@ public class Window extends JFrame{
 	JSplitPane jSplitPane =new JSplitPane();
     JPanel horizen = new JPanel();
     JPanel carRoute =new JPanel();
-    JSplitPane jSplitPane1 =new JSplitPane();//Fenêtre divisée
+    JSplitPane jSplitPane1 =new JSplitPane();//Fenï¿½tre divisï¿½e
     
     
     
     /*constructeur*/
     public Window()
     {
-    	this.setTitle("jeu du voiture");
-    	this.setBounds(100, 100, 600, 600);
+      	this.setTitle("jeu du voiture");
+    	this.setBounds(100, 100, Model.WIDTH_MAX, Model.HEIGHT_MAX);
         init();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,12 +46,12 @@ public class Window extends JFrame{
     void init()
     {
         jSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);//Diviser de haut en bas
-        jSplitPane.setDividerSize(0);//Définir la largeur de la ligne de séparation
+        jSplitPane.setDividerSize(0);//Dï¿½finir la largeur de la ligne de sï¿½paration
         
         jSplitPane.setLeftComponent(horizen);//ajouter panel horizen
         jSplitPane.setRightComponent(carRoute);//ajouter panel carRoute
 
-        jSplitPane.setDividerLocation(150);//Définir la position de la ligne de séparation
+        jSplitPane.setDividerLocation(Horizon.HEIGHT_HORIZON);//Dï¿½finir la position de la ligne de sï¿½paration
         setContentPane(jSplitPane);
 
         /*border color
