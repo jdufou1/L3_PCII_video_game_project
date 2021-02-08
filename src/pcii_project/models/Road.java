@@ -19,21 +19,38 @@ public class Road {
 	
 	private int score_y;
 	
+	private Acceleration acceleration;
+	
 	private Random random;
+	
+	private Thread moveThread;
 	
 	/* Constructor */
 	public Road() {
 		score_y = 0;
 		random = new Random();
-		create_road();
+		acceleration = new Acceleration();
 		
-		(new Thread(new MoveThread(this))).start();
+		
+		create_road();
+		moveThread = new Thread(new MoveThread(this));
+		start_move();
 	}
 	
 	
 	
 	public void move() {
 		score_y += MOVE_STEP_VALUE;
+	}
+	
+	
+	public void start_move() {
+		moveThread.start();
+	}
+	
+	
+	public void stop_move() {
+		moveThread.interrupt();
 	}
 	
 	/* CRUD Road */
@@ -67,6 +84,7 @@ public class Road {
 			current_score += HEIGHT_BETWEEN_TWO_POINTS;
 			road_points.add(new Point(width_alea , current_score));
 			check = current_score < (score_y + Model.HEIGHT_MAX);
+			System.out.println("nouveau point y = " + current_score);
 		}
 		
 		// Removing points
