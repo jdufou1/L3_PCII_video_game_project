@@ -1,5 +1,6 @@
 package pcii_project.models;
 
+
 public class Model {
 
 	
@@ -44,6 +45,7 @@ public class Model {
 		return road;
 	}
 	
+	
 	/* static */
 	
 	public static int getMiddleWidth() {
@@ -79,3 +81,5 @@ public class Model {
 		model.debbug_display();
 	}
 }
+
+
