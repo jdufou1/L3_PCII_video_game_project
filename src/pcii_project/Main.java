@@ -12,7 +12,7 @@ public class Main {
 		
 		
 		/* Test model */
-		TestModel testview = new TestModel();
+		TestModel testview = new TestModel(model);
 		testview.show();
 		
 		

@@ -25,7 +25,7 @@ public class Road {
 	
 	private int score_y;
 	
-	private Acceleration acceleration;
+	//private Acceleration acceleration;
 	
 	private Random random;
 	
@@ -35,7 +35,7 @@ public class Road {
 	public Road() {
 		score_y = 0;
 		random = new Random();
-		acceleration = new Acceleration();
+		///acceleration = new Acceleration();
 		
 		
 		create_road();
@@ -100,71 +100,77 @@ public class Road {
 		int current_score = road_points.get(road_points.size() - 1).y ;
 
 		/* ROAD */
-		boolean check = current_score < (score_y + Model.HEIGHT_MAX);
+		boolean check = current_score < (score_y + Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS);
 		while(check) {
+			//System.out.println("passage : current_score : " + current_score + " score_y : "+ score_y + "modelHeight : " + (Horizon.HEIGHT_HORIZON ));
 			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
 			current_score += HEIGHT_BETWEEN_TWO_POINTS;
 			// CENTRAL ROAD
 			road_points.add(new Point(Model.getMiddleWidth() + width_alea , current_score));
-			// LEFT ROAD 
 			
+			// LEFT ROAD 
 			left_bound_road.add(new Point(Model.getMiddleWidth() + width_alea - SPACE_BETWEEN_ROADBOUND, current_score));
+			
+			//RIGHT ROAD
 			right_bound_road.add(new Point(Model.getMiddleWidth() + width_alea + SPACE_BETWEEN_ROADBOUND, current_score));
 			
 			check = current_score < (score_y + Model.HEIGHT_MAX);
 		}
 		
-		
-		
-		
-		
 		// Removing points
 		int cpt = 0;
-		check = true;
-		while(cpt < road_points.size() && check) {
+		while(cpt < road_points.size()) {
 			if(road_points.get(cpt).y < score_y - Model.HEIGHT_MIN - HEIGHT_BETWEEN_TWO_POINTS ) {
 				road_points.remove(cpt);
 				left_bound_road.remove(cpt);
 				right_bound_road.remove(cpt);
-			}
-			else {
-				check = false;
 			}
 			cpt++;
 		}
 				
 	}
 	
-	
-	public boolean is_offside() {
-		return is_offside_right() && is_offside_left();
+	public boolean is_offside(int x_cars) {
+		return is_offside_left(x_cars) && is_offside_right(x_cars);	
 	}
 	
-	public boolean is_offside_right() {
-		Point p1 = right_bound_road.get(0);
-		Point p2 = right_bound_road.get(1);
+	public boolean is_offside_right(int x_cars) {
+		ArrayList<Point> points = getRightRoad_points();
+		Point p1 = points.get(0);
+		Point p2 = points.get(1);
+		// Calcul du coefficient directeur
+		double m =  (double) ((p2.y - p1.y)) / (double)  (p2.x - p1.x); 
+		// Calcul de l'ordonnee a l'origine
+		double p = (double) (p1.y - (m * p1.x));
+		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
+		int x = (int) (((score_y) - p) / m);
 		
-		double pente =  (double) ((p1.x - p2.x)) / (double)  (p1.y - p2.y)  ;
-		int x = (int) (p1.x - (pente * (p1.y - score_y)));
-		System.out.println("x_droit : "+ x + "point droit : " + p2.x);
-		
-		
-		
-		
-		return true;
+		if(x_cars + Cars.WIDTH_MAX_CARS > x) {
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
-	public boolean is_offside_left() {
-		return true;
+	public boolean is_offside_left(int x_cars) {
+		ArrayList<Point> points = getLeftRoad_points();
+		Point p1 = points.get(0);
+		Point p2 = points.get(1);
+		// Calcul du coefficient directeur
+		double m =  (double) ((p2.y - p1.y)) / (double)  (p2.x - p1.x);
+		// Calcul de l'ordonnee a l'origine
+		double p = (double) (p1.y - (m * p1.x));
+		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
+		int x = (int) (((score_y) - p) / m);
+		//System.out.println("x : "+x+"p2 : "+p2.x);
+		if(x_cars - Cars.WIDTH_MAX_CARS < x) {
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/* getters and setters */
 	
@@ -247,7 +253,6 @@ public class Road {
 		}
 		return res;
 	}
-	
 }
 
 class MoveThread extends Thread{
@@ -263,10 +268,17 @@ class MoveThread extends Thread{
 	public void run() {
 		try {
 			while(true) {
-					Thread.sleep(10);
+					Thread.sleep(1);
 					road.move();
 					road.update_road();
-					road.is_offside_right();
+					if(road.is_offside(400)) {
+						System.out.println("hors-route");
+					}
+					
+					/* DEBUG */
+					//System.out.println(road.getRightRoad_points());
+					//System.out.println("centre : " + road.getRoad_points().size() + "right : " + road.getRightRoad_points().size());
+				
 			}
 		}
 		catch(Exception e) {	

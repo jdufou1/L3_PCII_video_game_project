@@ -16,7 +16,12 @@ public class TestModel extends JPanel{
 
 	/* constantes */
 	
-	public static final int HEIGHT = 600;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static final int HEIGHT = 800;
 	
 	public static final int WIDTH = 800;
 	
@@ -32,14 +37,13 @@ public class TestModel extends JPanel{
 	
 	/* constructors */
 	
-	public TestModel() {
-		model = new Model();
+	public TestModel(Model model) {
+		this.model = model;
 		
 		windows.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		windows.add(this);
 		threadmodel = new Thread(new ThreadTestModel(this));
-		
 	}
 	
 	public void show() {
@@ -80,7 +84,7 @@ public class TestModel extends JPanel{
 		int cptpoly1 = 0;
 		old_point = leftpoints.get(0); 
 		for(Point point : leftpoints) {
-			g.drawLine( old_point.x, (hauteur_courante - old_point.y), point.x, (hauteur_courante - point.y));
+			//g.drawLine( old_point.x, (hauteur_courante - old_point.y), point.x, (hauteur_courante - point.y));
 			old_point = point;
 			xpoly1[cptpoly1] = point.x;
 			ypoly1[cptpoly1] = hauteur_courante - point.y;
@@ -105,7 +109,7 @@ public class TestModel extends JPanel{
 		int cptpoly2 = 0;
 		old_point = rightpoints.get(0); 
 		for(Point point : rightpoints) {
-			g.drawLine( old_point.x, (hauteur_courante - old_point.y), point.x, (hauteur_courante - point.y));
+			//g.drawLine( old_point.x, (hauteur_courante - old_point.y), point.x, (hauteur_courante - point.y));
 			old_point = point;
 			xpoly2[cptpoly2] = point.x;
 			ypoly2[cptpoly2] = hauteur_courante - point.y;
