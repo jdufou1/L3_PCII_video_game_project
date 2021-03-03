@@ -1,5 +1,6 @@
 package pcii_project.models;
 
+import pcii_project.models.data.DataGame;
 
 public class Model {
 
@@ -15,20 +16,32 @@ public class Model {
 	
 	
 	/* bound of cars placement */
-	public static final int LOWER_BOUND_CARS = (int) (WIDTH_MAX * 0.1);
-	public static final int UPPER_BOUND_CARS = (int) (WIDTH_MAX * 0.9);
+	public static final int LOWER_BOUND_CARS = (int) (WIDTH_MAX * 0.15);
+	public static final int UPPER_BOUND_CARS = (int) (WIDTH_MAX * 0.85);
 	
 	/* The attributes */
 	
+	private DataGame data;
 	private Road road;
 	private Horizon horizon;
 	private Cars cars;
 	
 	/* Constructor */
 	public Model() {
-		road = new Road();
+		data = new DataGame();
 		horizon = new Horizon();
-		cars = new Cars();
+		road = new Road(data);
+		cars = new Cars(data);
+	}
+	
+	/* functions */
+	
+	public void stop_progress() {
+		road.change_value_threadMove(false);
+	}
+	
+	public void continue_progress() {
+		road.change_value_threadMove(true);
 	}
 	
 	/* getters and setters */
@@ -43,6 +56,10 @@ public class Model {
 	
 	public Road getRoad() {
 		return road;
+	}
+	
+	public DataGame getData() {
+		return data;
 	}
 	
 	
@@ -67,7 +84,7 @@ public class Model {
 		System.out.println("Borne superieur limite : " + UPPER_BOUND_CARS);
 		
 		System.out.println("PARAMETRE VOITURE");
-		System.out.println("position : " + cars.getPlacement_x());
+		System.out.println("position : " + data.getPositionPlayer());
 		
 		System.out.println("PARAMETRE PARCOURS");
 		System.out.println("distance entre deux points hauteur : " + Road.HEIGHT_BETWEEN_TWO_POINTS);

@@ -10,22 +10,13 @@ public class Main {
 	public static void main(String[] args) {
 		Model model = new Model();
 		
-		
 		/* Test model */
 		TestModel testview = new TestModel(model);
+		Controls controls = new Controls(testview,model);
 		testview.show();
 		
-		
-		
-		
-		
-		
-		//Display view = new Display(model);
 		//Controls controleur = new Controls(model,view);
-		
-		
-		
-		
+
 	}
 
 }

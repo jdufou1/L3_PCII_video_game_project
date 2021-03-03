@@ -128,7 +128,7 @@ public class TestModel extends JPanel{
 		
 		/* DESSIN DE LA VOITURE */
 		g2.setColor(Color.BLACK);
-		int placementX_cars = model.getCars().getRelativePlacementX(largeur_courante);
+		int placementX_cars = model.getData().getRelativePositionPlayer(largeur_courante);
 		int placementY_cars = model.getCars().getRelativePlacementY(hauteur_courante);
 		int width_cars = model.getCars().getRelativeWidth(largeur_courante);
 		int height_cars = model.getCars().getRelativeWidth(hauteur_courante);
@@ -153,6 +153,12 @@ public class TestModel extends JPanel{
 		int value = (int) (relative_value * max_height);
 		return value;
 	}
+	
+	/* getters and setters */
+	
+	public JFrame getWindows() {
+		return windows;
+	}
 }
 /*
  * Classe utilisé par Affichage qui permet de mettre a jour l'affichage 
@@ -175,7 +181,6 @@ class ThreadTestModel extends Thread{
 	public void run() {
 		try {
 			while(true) {
-
 				Thread.sleep(10);
 				this.vue.repaint();
 			}

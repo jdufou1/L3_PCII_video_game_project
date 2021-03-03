@@ -7,19 +7,113 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import pcii_project.models.Model;
+import pcii_project.models.TestModel;
 import pcii_project.view.Display;
 import pcii_project.view.Window;
 
 
+/*
+ * Controle : 
+ * 
+ * SPACE : Mise en pause du model
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * */
+
 
 public class Controls  implements KeyListener {
 
-	/**
-	 * @param args
-	 */
 	
-	private Display view;
+	/* constantes */
+	
+	/* parametre par defaut : */
+	
+	public static final boolean PAUSE = false;
+	
+	
+	
+	/* attributs */
+	
+	private TestModel view;
 	private Model model;
+	
+	
+	private boolean pause;
+	
+	/* constructors */
+	public Controls(TestModel view, Model model) {
+		
+		view.getWindows().addKeyListener(this);
+
+		view.getWindows().addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){  
+	          System.exit(0);  
+			}
+		});	
+		
+		
+		this.model = model;
+		this.view = view;
+		
+		pause = PAUSE;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent evt) {
+		
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent evt) {
+		int keyCode = evt.getKeyCode();
+	    //char keyChar = evt.getKeyChar();
+	    
+	    try {
+	    	/* MISE EN PAUSE DU MODEL */
+	    	if(keyCode == KeyEvent.VK_SPACE) {
+	    		if(pause) model.continue_progress();
+	    		else model.stop_progress();
+	    		
+	    		pause =! pause;
+	    	}
+	    	
+	    	if(keyCode == KeyEvent.VK_RIGHT) {
+	    		model.getCars().move_right();
+	    	}
+	    	if(keyCode == KeyEvent.VK_LEFT) {
+	    		model.getCars().move_left();
+	    	}
+	    	if(keyCode == KeyEvent.VK_UP) {
+	    		model.getRoad().move();
+	    	}
+	    	
+	    	
+	    }
+	    catch(Exception error) {
+	    	System.out.println(error);
+	    }
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}
+
+/*
+ * 
+	
+	
 
 
 	public Controls(Model model,Display view) {
@@ -60,5 +154,6 @@ public class Controls  implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 	}
-
-}
+ * 
+ * 
+ */

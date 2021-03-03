@@ -1,5 +1,7 @@
 package pcii_project.models;
 
+import pcii_project.models.data.DataGame;
+
 public class Cars {
 	
 	/* The constants */
@@ -13,37 +15,30 @@ public class Cars {
 	
 	/* The attributes */
 	
-	private int placement_x;
+	private DataGame data;
 	
 	/* Constructor */
-	public Cars() {
-		placement_x = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (WIDTH_MAX_CARS / 2);
+	public Cars(DataGame data) {
+		this.data = data;
+		data.setPositionPlayer( (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (WIDTH_MAX_CARS / 2));
 	}
 	
 	/* getters and setters */
-	
-	public int getPlacement_x() {
-		return placement_x;
-	}
-	
-	
+
+
 	public void move_right() {
-		placement_x += STEP_VALUE;
-		if(placement_x > Model.UPPER_BOUND_CARS)
-			placement_x = Model.UPPER_BOUND_CARS;
+		data.setPositionPlayer(data.getPositionPlayer() + STEP_VALUE);
+		if(data.getPositionPlayer() > Model.UPPER_BOUND_CARS)
+			data.setPositionPlayer(Model.UPPER_BOUND_CARS);
 	}
 	
 	public void move_left() {
-		placement_x -= STEP_VALUE;
-		if(placement_x < Model.LOWER_BOUND_CARS)
-			placement_x = Model.LOWER_BOUND_CARS;
+		data.setPositionPlayer(data.getPositionPlayer() - STEP_VALUE);
+		if(data.getPositionPlayer() < Model.LOWER_BOUND_CARS - WIDTH_MAX_CARS )
+			data.setPositionPlayer(Model.LOWER_BOUND_CARS - WIDTH_MAX_CARS);
 	}
 	
-	public int getRelativePlacementX(int max_width) {
-		double relative_x = (double) placement_x / (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);
-		int x = (int) (relative_x * max_width);
-		return x;
-	}
+	
 	
 	public int getRelativePlacementY(int max_height) {
 		double relative_y = (double) (PLACEMENTY_CARS)/ (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);

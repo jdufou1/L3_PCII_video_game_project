@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import pcii_project.models.data.DataGame;
+
 public class Road {
 
 	/* The constants */
@@ -23,40 +25,38 @@ public class Road {
 	
 	private ArrayList<Point> right_bound_road;
 	
-	private int score_y;
-	
 	//private Acceleration acceleration;
 	
 	private Random random;
 	
-	private Thread moveThread;
+	private MoveThread moveThread;
+	
+	private DataGame data;
 	
 	/* Constructor */
-	public Road() {
-		score_y = 0;
+	public Road(DataGame data) {
+		this.data = data;
+		data.setPositionPlayer(0);
+		
 		random = new Random();
-		///acceleration = new Acceleration();
-		
-		
+		///acceleration = new Acceleration();		
 		create_road();
-		moveThread = new Thread(new MoveThread(this));
+		moveThread = new MoveThread(this);
 		start_move();
 	}
 	
 	
 	
 	public void move() {
-		score_y += MOVE_STEP_VALUE;
+		data.setScorePlayer(data.getScorePlayer() + MOVE_STEP_VALUE);
 	}
-	
 	
 	public void start_move() {
-		moveThread.start();
+		new Thread(moveThread).start();
 	}
 	
-	
-	public void stop_move() {
-		moveThread.interrupt();
+	public void change_value_threadMove(boolean move) {
+		moveThread.setMove(move);
 	}
 	
 	/* CRUD Road */
@@ -79,7 +79,7 @@ public class Road {
 		right_bound_road.add(right_start_point); // RIGHT ROAD
 		
 		
-		int height_tmp = score_y + HEIGHT_BETWEEN_TWO_POINTS; // placement of the other points without changing score_y 
+		int height_tmp = data.getScorePlayer() + HEIGHT_BETWEEN_TWO_POINTS; // placement of the other points without changing score_y 
 		
 		// boucle to add point up to Horizon
 		while(height_tmp  < Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS) {
@@ -100,7 +100,7 @@ public class Road {
 		int current_score = road_points.get(road_points.size() - 1).y ;
 
 		/* ROAD */
-		boolean check = current_score < (score_y + Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS);
+		boolean check = current_score < (data.getScorePlayer() + Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS);
 		while(check) {
 			//System.out.println("passage : current_score : " + current_score + " score_y : "+ score_y + "modelHeight : " + (Horizon.HEIGHT_HORIZON ));
 			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
@@ -114,13 +114,13 @@ public class Road {
 			//RIGHT ROAD
 			right_bound_road.add(new Point(Model.getMiddleWidth() + width_alea + SPACE_BETWEEN_ROADBOUND, current_score));
 			
-			check = current_score < (score_y + Model.HEIGHT_MAX);
+			check = current_score < (data.getScorePlayer() + Model.HEIGHT_MAX);
 		}
 		
 		// Removing points
 		int cpt = 0;
 		while(cpt < road_points.size()) {
-			if(road_points.get(cpt).y < score_y - Model.HEIGHT_MIN - HEIGHT_BETWEEN_TWO_POINTS ) {
+			if(road_points.get(cpt).y < data.getScorePlayer() - Model.HEIGHT_MIN - HEIGHT_BETWEEN_TWO_POINTS ) {
 				road_points.remove(cpt);
 				left_bound_road.remove(cpt);
 				right_bound_road.remove(cpt);
@@ -131,7 +131,7 @@ public class Road {
 	}
 	
 	public boolean is_offside(int x_cars) {
-		return is_offside_left(x_cars) && is_offside_right(x_cars);	
+		return is_offside_left(x_cars) || is_offside_right(x_cars);	
 	}
 	
 	public boolean is_offside_right(int x_cars) {
@@ -143,7 +143,7 @@ public class Road {
 		// Calcul de l'ordonnee a l'origine
 		double p = (double) (p1.y - (m * p1.x));
 		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
-		int x = (int) (((score_y) - p) / m);
+		int x = (int) (((data.getScorePlayer()) - p) / m);
 		
 		if(x_cars + Cars.WIDTH_MAX_CARS > x) {
 			return true;
@@ -162,7 +162,7 @@ public class Road {
 		// Calcul de l'ordonnee a l'origine
 		double p = (double) (p1.y - (m * p1.x));
 		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
-		int x = (int) (((score_y) - p) / m);
+		int x = (int) (((data.getScorePlayer()) - p) / m);
 		//System.out.println("x : "+x+"p2 : "+p2.x);
 		if(x_cars - Cars.WIDTH_MAX_CARS < x) {
 			return true;
@@ -189,7 +189,7 @@ public class Road {
 	public ArrayList<Point> getRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : road_points) {
-			res.add(new Point(point.x , point.y - score_y));			
+			res.add(new Point(point.x , point.y - data.getScorePlayer()));			
 		}
 		return res;
 	}
@@ -197,7 +197,7 @@ public class Road {
 	public ArrayList<Point> getLeftRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : left_bound_road) {
-			res.add(new Point(point.x , point.y - score_y));			
+			res.add(new Point(point.x , point.y - data.getScorePlayer()));			
 		}
 		return res;
 	}
@@ -205,7 +205,7 @@ public class Road {
 	public ArrayList<Point> getRightRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : right_bound_road) {
-			res.add(new Point(point.x , point.y - score_y));			
+			res.add(new Point(point.x , point.y - data.getScorePlayer()));			
 		}
 		return res;
 	}
@@ -214,7 +214,7 @@ public class Road {
 	 * Model points to graphics points
 	 * */
 	public ArrayList<Point> getRoad_points_with_dimension(int max_height, int max_width){
-		ArrayList<Point> current_points = getRoad_points_with_score(score_y);
+		ArrayList<Point> current_points = getRoad_points_with_score(data.getScorePlayer());
 		ArrayList<Point> res = new ArrayList<Point>();
 
 		for(Point point : current_points) {
@@ -229,7 +229,7 @@ public class Road {
 	}
 	
 	public ArrayList<Point> getLeftRoad_points_with_dimension(int max_height, int max_width){
-		ArrayList<Point> current_points = getLeftRoad_points_with_score(score_y);
+		ArrayList<Point> current_points = getLeftRoad_points_with_score(data.getScorePlayer());
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : current_points) {
 			double relative_x = (double) point.x / (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);
@@ -242,7 +242,7 @@ public class Road {
 	}
 	
 	public ArrayList<Point> getRightRoad_points_with_dimension(int max_height, int max_width){
-		ArrayList<Point> current_points = getRightRoad_points_with_score(score_y);
+		ArrayList<Point> current_points = getRightRoad_points_with_score(data.getScorePlayer());
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : current_points) {
 			double relative_x = (double) point.x / (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);
@@ -253,36 +253,54 @@ public class Road {
 		}
 		return res;
 	}
+
+	public DataGame getData() {
+		return data;
+	}
+
+	
 }
 
 class MoveThread extends Thread{
 	/* Attributs */
 	private Road road;
 	
+	private boolean move;
+	
 	/* Constructeurs */
 	public MoveThread(Road road) {
 		this.road = road;
+		move = true;
 	}
 	
 	@Override
 	public void run() {
 		try {
 			while(true) {
-					Thread.sleep(1);
-					road.move();
+				Thread.sleep(1);
+				if(move) {
+					//road.move();
 					road.update_road();
-					if(road.is_offside(400)) {
-						System.out.println("hors-route");
+					if(road.is_offside(road.getData().getPositionPlayer())) {
+						//System.out.println("hors-route");
 					}
+				}
 					
-					/* DEBUG */
-					//System.out.println(road.getRightRoad_points());
-					//System.out.println("centre : " + road.getRoad_points().size() + "right : " + road.getRightRoad_points().size());
+					
+				/* DEBUG */
+				//System.out.println(road.getRightRoad_points());
+				//System.out.println("centre : " + road.getRoad_points().size() + "right : " + road.getRightRoad_points().size());
 				
 			}
 		}
 		catch(Exception e) {	
 			e.printStackTrace();
 		}
+	}
+	
+	/* getters and setters */
+	
+	public void setMove(boolean move) {
+		this.move = move;
 	}
 }
