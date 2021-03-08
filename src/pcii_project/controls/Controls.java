@@ -1,6 +1,5 @@
 package pcii_project.controls;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -8,8 +7,7 @@ import java.awt.event.WindowEvent;
 
 import pcii_project.models.Model;
 import pcii_project.models.TestModel;
-import pcii_project.view.Display;
-import pcii_project.view.Window;
+import pcii_project.view.CarModel;
 
 
 /*
@@ -38,14 +36,14 @@ public class Controls  implements KeyListener {
 	
 	/* attributs */
 	
-	private TestModel view;
+	private CarModel view;
 	private Model model;
 	
 	
 	private boolean pause;
 	
 	/* constructors */
-	public Controls(TestModel view, Model model) {
+	public Controls(CarModel view, Model model) {
 		
 		view.getWindows().addKeyListener(this);
 

@@ -11,21 +11,20 @@ import pcii_project.models.Model;
 
 
 public class Display extends JPanel{
-	
 	private Window window;
 	
 	public static final int HAUT_VOITURE = 40;
 	public static final int LARGE_VOITURE = 40;
 	public static final int Y_VOITURE = 300;
 	
-	/*variable*/
+	//variable
 	public int x_voiture = window.LARGE_FENETRE/2;
 	
 	private Model model;
 	
 	
 	
-	/*constructeur*/
+	//constructeur
     public Display(Model model)  {
 	
     	window = new Window();
@@ -48,8 +47,8 @@ public class Display extends JPanel{
     	super.paint(g);
     	
     	//voiture
-    	g.fillRect(model.getCars().getPlacement_x(), Y_VOITURE+HAUT_VOITURE/2, HAUT_VOITURE, LARGE_VOITURE);
-    	//g.fillRect(x_voiture+HAUT_VOITURE/2, Y_VOITURE+LARGE_VOITURE/2, LARGE_VOITURE, HAUT_VOITURE );
+    	//g.fillRect(model.getCars().getPlacement_x(), Y_VOITURE+HAUT_VOITURE/2, HAUT_VOITURE, LARGE_VOITURE);
+    	g.fillRect(x_voiture+HAUT_VOITURE/2, Y_VOITURE+LARGE_VOITURE/2, LARGE_VOITURE, HAUT_VOITURE );
     	
     	//parcours
     	g.drawLine(400,0, 400, 450);

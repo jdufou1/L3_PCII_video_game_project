@@ -2,8 +2,7 @@ package pcii_project;
 
 import pcii_project.controls.Controls;
 import pcii_project.models.Model;
-import pcii_project.models.TestModel;
-import pcii_project.view.Display;
+import pcii_project.view.CarModel;
 
 public class Main {
 	
@@ -11,9 +10,9 @@ public class Main {
 		Model model = new Model();
 		
 		/* Test model */
-		TestModel testview = new TestModel(model);
-		Controls controls = new Controls(testview,model);
-		testview.show();
+		CarModel carview = new CarModel(model);
+		Controls controls = new Controls(carview,model);
+		carview.show();
 		
 		//Controls controleur = new Controls(model,view);
 
