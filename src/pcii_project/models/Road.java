@@ -33,9 +33,12 @@ public class Road {
 	
 	private DataGame data;
 	
+	private Acceleration acceleration;
+	
 	/* Constructor */
 	public Road(DataGame data) {
 		this.data = data;
+		this.acceleration = new Acceleration(data);
 		data.setPositionPlayer(0);
 		
 		random = new Random();
@@ -48,7 +51,8 @@ public class Road {
 	
 	
 	public void move() {
-		data.setScorePlayer(data.getScorePlayer() + MOVE_STEP_VALUE);
+		System.out.println(data.get_Kilometer_per_hours() + " km/h");
+		data.setScorePlayer((int)(data.getScorePlayer() + (MOVE_STEP_VALUE * data.getFactorAcceleration())));
 	}
 	
 	public void start_move() {
@@ -256,6 +260,10 @@ public class Road {
 
 	public DataGame getData() {
 		return data;
+	}
+	
+	public Acceleration getAcceleration() {
+		return acceleration;
 	}
 
 	

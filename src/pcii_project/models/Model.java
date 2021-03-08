@@ -37,11 +37,11 @@ public class Model {
 	/* functions */
 	
 	public void stop_progress() {
-		road.change_value_threadMove(false);
+		road.getAcceleration().set_pause(true);
 	}
 	
 	public void continue_progress() {
-		road.change_value_threadMove(true);
+		road.getAcceleration().set_pause(false);
 	}
 	
 	/* getters and setters */

@@ -12,9 +12,12 @@ public class DataGame {
 	
 	private int position_player;
 	
+	private double factor_acceleration;
+	
 	/* Constructors */
 	
 	public DataGame() {
+		factor_acceleration = 1.0;
 		score_player = 0;
 		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
 	}
@@ -29,6 +32,10 @@ public class DataGame {
 		return position_player;
 	}
 	
+	public double getFactorAcceleration() {
+		return factor_acceleration;
+	}
+	
 	public void setScorePlayer(int score_player) {
 		this.score_player = score_player;
 	}
@@ -36,6 +43,14 @@ public class DataGame {
 	public void setPositionPlayer(int position_player)
 	{
 		this.position_player = position_player;
+	}
+	
+	public void setFactorAcceleration(double factor_acceleration) {
+		this.factor_acceleration = factor_acceleration;
+	}
+	
+	public int get_Kilometer_per_hours() {
+		return (int) factor_acceleration;
 	}
 	
 	public int getRelativePositionPlayer(int max_width) {
