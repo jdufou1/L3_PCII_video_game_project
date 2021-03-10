@@ -38,8 +38,6 @@ public class Cars {
 			data.setPositionPlayer(Model.LOWER_BOUND_CARS - WIDTH_MAX_CARS);
 	}
 	
-	
-	
 	public int getRelativePlacementY(int max_height) {
 		double relative_y = (double) (PLACEMENTY_CARS)/ (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);
 		int y = (int) (relative_y * max_height);

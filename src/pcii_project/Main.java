@@ -11,7 +11,7 @@ public class Main {
 		
 		/* Test model */
 		CarModel carview = new CarModel(model);
-		Controls controls = new Controls(carview,model);
+		new Controls(carview,model);
 		carview.show();
 		
 		//Controls controleur = new Controls(model,view);

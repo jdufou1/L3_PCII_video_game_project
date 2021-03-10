@@ -64,13 +64,20 @@ public class Controls  implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent evt) {
 		int keyCode = evt.getKeyCode();
+<<<<<<< HEAD
+=======
+	    
+>>>>>>> ac4b128c691ff3e0ed56ea7d34991016d2b249fa
 	    try {
 	    	/* MISE EN PAUSE DU MODEL */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
 	    		threadControls.set_space();
+<<<<<<< HEAD
 	    		model.stop_progress();
 	    		StopView frame = new StopView(model);
 				frame.setVisible(true);
+=======
+>>>>>>> ac4b128c691ff3e0ed56ea7d34991016d2b249fa
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
 	    		threadControls.set_right(true);
@@ -152,10 +159,17 @@ class ThreadControls extends Thread{
 			    	}
 			    	if(up) {
 			    		model.getRoad().move();
+<<<<<<< HEAD
 			    		//model.getRoad().getAcceleration().start_acceleration();
 			    	}
 			    	if(!up) {
 			    		//model.getRoad().getAcceleration().end_acceleration();
+=======
+			    		model.getRoad().getAcceleration().start_acceleration();
+			    	}
+			    	if(!up) {
+			    		model.getRoad().getAcceleration().end_acceleration();
+>>>>>>> ac4b128c691ff3e0ed56ea7d34991016d2b249fa
 			    	}
 				}
 		    	if(space) {
