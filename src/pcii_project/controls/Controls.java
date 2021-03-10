@@ -5,20 +5,19 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import pcii_project.models.Acceleration;
 import pcii_project.models.Model;
+import pcii_project.models.Road;
 import pcii_project.models.TestModel;
+import pcii_project.models.data.DataGame;
 import pcii_project.view.CarModel;
+import pcii_project.view.StopView;
 
 
 /*
  * Controle : 
  * 
  * SPACE : Mise en pause du model
- * 
- * 
- * 
- * 
- * 
  * 
  * */
 
@@ -30,17 +29,13 @@ public class Controls  implements KeyListener {
 	
 	/* parametre par defaut : */
 	
-	public static final boolean PAUSE = false;
-	
-	
 	
 	/* attributs */
 	
 	private CarModel view;
 	private Model model;
+	private ThreadControls threadControls;
 	
-	
-	private boolean pause;
 	
 	/* constructors */
 	public Controls(CarModel view, Model model) {
@@ -53,11 +48,11 @@ public class Controls  implements KeyListener {
 			}
 		});	
 		
-		
+		this.threadControls = new ThreadControls(model);
 		this.model = model;
 		this.view = view;
 		
-		pause = PAUSE;
+		new Thread(threadControls).start();
 	}
 
 	@Override
@@ -69,28 +64,28 @@ public class Controls  implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent evt) {
 		int keyCode = evt.getKeyCode();
-	    //char keyChar = evt.getKeyChar();
-	    
 	    try {
 	    	/* MISE EN PAUSE DU MODEL */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
-	    		if(pause) model.continue_progress();
-	    		else model.stop_progress();
-	    		
-	    		pause =! pause;
-	    	}
-	    	
+	    		threadControls.set_space();
+	    		model.stop_progress();
+	    		StopView frame = new StopView(model);
+				frame.setVisible(true);
+	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
-	    		model.getCars().move_right();
+	    		threadControls.set_right(true);
 	    	}
 	    	if(keyCode == KeyEvent.VK_LEFT) {
-	    		model.getCars().move_left();
+	    		threadControls.set_left(true);
 	    	}
 	    	if(keyCode == KeyEvent.VK_UP) {
-	    		model.getRoad().move();
+	    		threadControls.set_up(true);
 	    	}
-	    	
-	    	
+	    	if(keyCode == KeyEvent.VK_A) {
+	    	}
+	    	if(keyCode == KeyEvent.VK_2) {
+	    		//model.getRoad().getAcceleration().lvl2_activation();
+	    	}
 	    }
 	    catch(Exception error) {
 	    	System.out.println(error);
@@ -99,8 +94,23 @@ public class Controls  implements KeyListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent evt) {
+		int keyCode = evt.getKeyCode();
+	    try {
+	    	if(keyCode == KeyEvent.VK_RIGHT) {
+	    		threadControls.set_right(false);
+	    	}
+	    	if(keyCode == KeyEvent.VK_LEFT) {
+	    		threadControls.set_left(false);
+	    	}
+	    	if(keyCode == KeyEvent.VK_UP) {
+	    		threadControls.set_up(false);
+	    	}    	
+	    }
+	    catch(Exception error) {
+	    	System.out.println(error);
+	    
+	    }
 		
 	}
 	
@@ -108,50 +118,76 @@ public class Controls  implements KeyListener {
 
 }
 
-/*
- * 
+class ThreadControls extends Thread{
 	
 	
-
-
-	public Controls(Model model,Display view) {
+	private Model model;
+	
+	private boolean up = false;
+	
+	private boolean right = false;
+	
+	private boolean left = false;
+	
+	private boolean space = false;
+	
+	private boolean pause = false;
+	
+	public ThreadControls(Model model) {
 		this.model = model;
-		this.view = view;
-		view.getWindow().addKeyListener(this);
-
-		view.getWindow().addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent e){  
-	          System.exit(0);  
+	}
+	
+	@Override
+	public void run() {
+		try {
+			while(true) {
+				Thread.sleep(10);
+				if(!pause) {
+					
+					if(right) {
+			    		model.getCars().move_right();
+			    	}
+			    	if(left) {
+			    		model.getCars().move_left();
+			    	}
+			    	if(up) {
+			    		model.getRoad().move();
+			    		//model.getRoad().getAcceleration().start_acceleration();
+			    	}
+			    	if(!up) {
+			    		//model.getRoad().getAcceleration().end_acceleration();
+			    	}
+				}
+		    	if(space) {
+		    		if(pause) model.continue_progress();
+		    		else model.stop_progress();
+		    		
+		    		pause =! pause;
+		    	}
+				
+				
 			}
-		});	
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-		if(e.getKeyCode()==KeyEvent.VK_RIGHT){
-			System.out.println("RIGHT");
-			model.getCars().move_right();
-			view.repaint();
 		}
-		
-		if(e.getKeyCode()==KeyEvent.VK_LEFT){
-			System.out.println("LEFT");
-			model.getCars().move_left();
-			view.repaint();
-		}	
+		catch(Exception e) {	
+			e.printStackTrace();
+		}
 	}
 	
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub	
+	public void set_up(boolean up) {
+		this.up = up;
 	}
 	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+	public void set_right(boolean right) {
+		this.right = right;
 	}
- * 
- * 
- */
+	
+	public void set_left(boolean left) {
+		this.left = left;
+	}
+	
+	public void set_space() {
+		this.space =! space;
+	}
+	
+	
+}
