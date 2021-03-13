@@ -46,21 +46,19 @@ public class Acceleration {
 		
 	}
 	
-	
 	public void decrease_acceleration() {
-		
 		data.setFactorAcceleration( data.getFactorAcceleration() * (1-ACCELERATION));
 		if(data.getFactorAcceleration() < 1 ) 
 			data.setFactorAcceleration(1.0);
 	}
 	
-	
-	
 	public void start_acceleration() {
+		//System.out.println(data.getFactorAcceleration() + " km/h");
 		threadAcc.setIsActivated(true);
 	}
 	
 	public void end_acceleration() {
+		//System.out.println(data.getFactorAcceleration() + " km/h");
 		threadAcc.setIsActivated(false);
 	}
 	
@@ -112,8 +110,8 @@ class ThreadStartAcceleration extends Thread{
 					else {
 						acceleration.decrease_acceleration();
 						if(data.getFactorAcceleration() > 1.1) {
-							System.out.println("passage");
-							System.out.println(data.get_Kilometer_per_hours() + " km/h");
+							//System.out.println("passage");
+							//System.out.println(data.get_Kilometer_per_hours() + " km/h");
 							data.setScorePlayer((int) (data.getScorePlayer() + (Road.MOVE_STEP_VALUE * data.getFactorAcceleration())));
 						}
 					}

@@ -99,7 +99,7 @@ public class CarModel extends JPanel{
 		xpoly1[cptpoly1] = 0;
 		ypoly1[cptpoly1] = hauteur_courante;
 				
-		g2.setColor(Color.GREEN);
+		g2.setColor(new Color(58, 137, 35));
 		g2.fillPolygon(xpoly1,ypoly1,cptpoly1 + 1);
 		
 
@@ -124,7 +124,7 @@ public class CarModel extends JPanel{
 		xpoly2[cptpoly2] = largeur_courante;
 		ypoly2[cptpoly2] = hauteur_courante;
 		
-		g2.setColor(Color.GREEN);
+		g2.setColor(new Color(58, 137, 35));;
 		g2.fillPolygon(xpoly2,ypoly2,cptpoly2 + 1);
 		int ty=model.getRoad().getData().getScorePlayer();
 			ty=ty-(ty/610)*610;

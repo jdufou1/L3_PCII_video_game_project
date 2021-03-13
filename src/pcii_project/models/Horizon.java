@@ -6,7 +6,7 @@ public class Horizon {
 
 	/* The constants */
 	
-	public static final int HEIGHT_HORIZON = (int) ((Model.HEIGHT_MAX - Model.HEIGHT_MIN)* 2 / 3);
+	public static final int HEIGHT_HORIZON = (int) ((Model.HEIGHT_MAX - Model.HEIGHT_MIN)* 4 / 5);
 	
 	/* The attributes */
 	

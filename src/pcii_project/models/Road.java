@@ -14,7 +14,7 @@ public class Road {
 	
 	public static final int WIDTH_BETWEEN_TWO_POINTS = (Model.WIDTH_MAX - Model.WIDTH_MIN) / 10;
 	
-	public static final int SPACE_BETWEEN_ROADBOUND = (int) (1.0 / 4.0 * (double) Model.WIDTH_MAX);
+	public static final int SPACE_BETWEEN_ROADBOUND = (int) (1.0 / 5.0 * (double) Model.WIDTH_MAX);
 	/* The attributes */
 	
 	public static final int MOVE_STEP_VALUE = 1;
@@ -35,9 +35,12 @@ public class Road {
 	
 	private Acceleration acceleration;
 	
+	private CheckPoint checkpoint;
+	
 	/* Constructor */
 	public Road(DataGame data) {
 		this.data = data;
+		this.checkpoint = new CheckPoint(data);
 		this.acceleration = new Acceleration(data);
 		data.setPositionPlayer(0);
 		
@@ -51,7 +54,7 @@ public class Road {
 	
 	
 	public void move() {
-		System.out.println(data.get_Kilometer_per_hours() + " km/h");
+		//System.out.println(data.get_Kilometer_per_hours() + " km/h");
 		data.setScorePlayer((int)(data.getScorePlayer() + (MOVE_STEP_VALUE * data.getFactorAcceleration())));
 	}
 	
@@ -88,7 +91,8 @@ public class Road {
 		// boucle to add point up to Horizon
 		while(height_tmp  < Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS) {
 			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
-			road_points.add(new Point(Model.getMiddleWidth() + width_alea, height_tmp)); // CENTRAL ROAD
+			road_points.add(new Point(Model.getMiddleWidth() + width_alea, height_tmp)); // CENTRAL ROAD			
+			
 			left_bound_road.add(new Point(Model.getMiddleWidth() + width_alea - SPACE_BETWEEN_ROADBOUND, height_tmp)); // LEFT ROAD
 			right_bound_road.add(new Point(Model.getMiddleWidth() + width_alea + SPACE_BETWEEN_ROADBOUND, height_tmp)); // RIGHT ROAD
 			height_tmp += HEIGHT_BETWEEN_TWO_POINTS;
@@ -104,7 +108,7 @@ public class Road {
 		int current_score = road_points.get(road_points.size() - 1).y ;
 
 		/* ROAD */
-		boolean check = current_score < (data.getScorePlayer() + Horizon.HEIGHT_HORIZON + HEIGHT_BETWEEN_TWO_POINTS);
+		boolean check = current_score < (data.getScorePlayer() + Horizon.HEIGHT_HORIZON +  HEIGHT_BETWEEN_TWO_POINTS);
 		while(check) {
 			//System.out.println("passage : current_score : " + current_score + " score_y : "+ score_y + "modelHeight : " + (Horizon.HEIGHT_HORIZON ));
 			int width_alea = random.nextInt(WIDTH_BETWEEN_TWO_POINTS * 2) - WIDTH_BETWEEN_TWO_POINTS;	
@@ -124,7 +128,7 @@ public class Road {
 		// Removing points
 		int cpt = 0;
 		while(cpt < road_points.size()) {
-			if(road_points.get(cpt).y < data.getScorePlayer() - Model.HEIGHT_MIN - HEIGHT_BETWEEN_TWO_POINTS ) {
+			if(road_points.get(cpt).y < data.getScorePlayer() - Model.HEIGHT_MIN - (5 * HEIGHT_BETWEEN_TWO_POINTS) ) {
 				road_points.remove(cpt);
 				left_bound_road.remove(cpt);
 				right_bound_road.remove(cpt);
@@ -201,7 +205,11 @@ public class Road {
 	public ArrayList<Point> getLeftRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : left_bound_road) {
-			res.add(new Point(point.x , point.y - data.getScorePlayer()));			
+			/* POUR DONNER UN EFFET DE PERSPECTIVE */
+			double Yp =  point.y - data.getScorePlayer();
+			double rate = Yp / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+			/* */ 
+			res.add(new Point(point.x  + (int)((rate) * 1.5 * WIDTH_BETWEEN_TWO_POINTS), point.y - data.getScorePlayer()));			
 		}
 		return res;
 	}
@@ -209,7 +217,11 @@ public class Road {
 	public ArrayList<Point> getRightRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : right_bound_road) {
-			res.add(new Point(point.x , point.y - data.getScorePlayer()));			
+			/* POUR DONNER UN EFFET DE PERSPECTIVE */
+			double Yp =  point.y - data.getScorePlayer();
+			double rate = Yp / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+			/* */
+			res.add(new Point(point.x - (int)((rate) * 1.5 * WIDTH_BETWEEN_TWO_POINTS), point.y - data.getScorePlayer()));			
 		}
 		return res;
 	}
@@ -265,7 +277,17 @@ public class Road {
 	public Acceleration getAcceleration() {
 		return acceleration;
 	}
+	
+	public CheckPoint getCheckPoint() {
+		return checkpoint;
+	}
 
+	/* CHECKPOINT */
+	
+	public ArrayList<Point> getPointCheckPoint(int score , int max_height , int max_width){
+		ArrayList<Point> res = null;
+		return res;
+	}
 	
 }
 
@@ -289,6 +311,7 @@ class MoveThread extends Thread{
 				if(move) {
 					//road.move();
 					road.update_road();
+					road.getCheckPoint().update();
 					if(road.is_offside(road.getData().getPositionPlayer())) {
 						//System.out.println("hors-route");
 					}

@@ -11,7 +11,7 @@ public class Model {
 	public static final int HEIGHT_MIN = 0;
 	public static final int HEIGHT_MAX = 600;
 	public static final int WIDTH_MIN = 0;
-	public static final int WIDTH_MAX = 800;
+	public static final int WIDTH_MAX = 1000;
 	
 	
 	
@@ -26,12 +26,17 @@ public class Model {
 	private Horizon horizon;
 	private Cars cars;
 	
+	private Game game;
+	
 	/* Constructor */
 	public Model() {
+		
 		data = new DataGame();
 		horizon = new Horizon();
 		road = new Road(data);
 		cars = new Cars(data);
+		game = new Game(this);
+		game.newGame();
 	}
 	
 	/* functions */
@@ -42,6 +47,12 @@ public class Model {
 	
 	public void continue_progress() {
 		road.getAcceleration().set_pause(false);
+	}
+	
+	public void reinitialize() {
+		data.reinitialize();
+		road.create_road();
+		road.getCheckPoint().reset();
 	}
 	
 	/* getters and setters */

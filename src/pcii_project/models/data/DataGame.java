@@ -22,6 +22,14 @@ public class DataGame {
 		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
 	}
 	
+	/* functions */
+	
+	public void reinitialize() {
+		factor_acceleration = 1.0;
+		score_player = 0;
+		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
+	}
+	
 	/* getters and setters */
 	
 	public int getScorePlayer() {
