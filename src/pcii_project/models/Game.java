@@ -13,6 +13,8 @@ public class Game {
 	
 	private ThreadGame threadGame;
 	
+	private int bonusTime;
+	
 	private boolean endGame;
 	
 	
@@ -24,11 +26,12 @@ public class Game {
 		threadGame = new ThreadGame(this);
 		new Thread(threadGame).start();
 		endGame = false;
+		bonusTime = 0;
 	}
 	
 	public void newGame() {
 		/* on redefinit les valeurs d'une partie */
-		System.out.println("[DEBUT DE PARTIE] : CHRONO INTIAL : " + CHRONO_MAX + "s");
+		System.out.println("[DEBUT DE PARTIE] : CHRONO INTIAL : " + CHRONO_MAX  + "s");
 		model.reinitialize(); // On re initialise le modèle
 		startChrono(); // On démarre le chrono
 		threadGame.setActif(true);
@@ -56,6 +59,18 @@ public class Game {
 	public Chrono getChrono() {
 		return chrono;
 	}
+	
+	public int getBonusTime() {
+		return bonusTime;
+	}
+	
+	public void setBonusTime(int bonusTime) {
+		this.bonusTime = bonusTime;
+	}
+	
+	public int getTimeremaining() {
+		return (int)CHRONO_MAX + bonusTime - (int)chrono.getDureeSec();
+	}
 }
 
 class ThreadGame extends Thread{
@@ -79,7 +94,7 @@ class ThreadGame extends Thread{
 				Thread.sleep(10);
 				if(actif)
 				{
-					if(game.getChrono().getDureeSec() > Game.CHRONO_MAX) {
+					if(game.getChrono().getDureeSec() > Game.CHRONO_MAX + game.getBonusTime()) {
 						game.endGame();
 					}
 				}

@@ -37,10 +37,14 @@ public class Road {
 	
 	private CheckPoint checkpoint;
 	
+	private Game game;
+	
+	
 	/* Constructor */
-	public Road(DataGame data) {
+	public Road(DataGame data,Game game) {
 		this.data = data;
-		this.checkpoint = new CheckPoint(data);
+		this.game = game;
+		this.checkpoint = new CheckPoint(data,game);
 		this.acceleration = new Acceleration(data);
 		data.setPositionPlayer(0);
 		
@@ -135,7 +139,6 @@ public class Road {
 			}
 			cpt++;
 		}
-				
 	}
 	
 	public boolean is_offside(int x_cars) {
@@ -281,13 +284,12 @@ public class Road {
 	public CheckPoint getCheckPoint() {
 		return checkpoint;
 	}
-
-	/* CHECKPOINT */
 	
-	public ArrayList<Point> getPointCheckPoint(int score , int max_height , int max_width){
-		ArrayList<Point> res = null;
-		return res;
+	public Game getGame() {
+		return game;
 	}
+
+	
 	
 }
 
@@ -312,6 +314,14 @@ class MoveThread extends Thread{
 					//road.move();
 					road.update_road();
 					road.getCheckPoint().update();
+					/* UPDATE CHECKPOINTS */
+					
+					
+					
+					System.out.println("Temps restant : " + road.getGame().getTimeremaining() + "s");
+					
+					
+					
 					if(road.is_offside(road.getData().getPositionPlayer())) {
 						//System.out.println("hors-route");
 					}

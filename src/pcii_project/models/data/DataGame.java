@@ -14,11 +14,14 @@ public class DataGame {
 	
 	private double factor_acceleration;
 	
+	private int nb_checkpoints_complete;
+	
 	/* Constructors */
 	
 	public DataGame() {
 		factor_acceleration = 1.0;
 		score_player = 0;
+		nb_checkpoints_complete = 0;
 		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
 	}
 	
@@ -27,6 +30,7 @@ public class DataGame {
 	public void reinitialize() {
 		factor_acceleration = 1.0;
 		score_player = 0;
+		nb_checkpoints_complete = 0;
 		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
 	}
 	
@@ -44,6 +48,10 @@ public class DataGame {
 		return factor_acceleration;
 	}
 	
+	public int getNbCheckpointsComplete() {
+		return nb_checkpoints_complete;
+	}
+	
 	public void setScorePlayer(int score_player) {
 		this.score_player = score_player;
 	}
@@ -55,6 +63,10 @@ public class DataGame {
 	
 	public void setFactorAcceleration(double factor_acceleration) {
 		this.factor_acceleration = factor_acceleration;
+	}
+	
+	public void setNbCheckpointsComplete(int nb_checkpoints_complete) {
+		this.nb_checkpoints_complete =  nb_checkpoints_complete;
 	}
 	
 	public int get_Kilometer_per_hours() {

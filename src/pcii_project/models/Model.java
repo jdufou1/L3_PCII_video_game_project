@@ -30,12 +30,12 @@ public class Model {
 	
 	/* Constructor */
 	public Model() {
-		
+		game = new Game(this);
 		data = new DataGame();
 		horizon = new Horizon();
-		road = new Road(data);
+		road = new Road(data,game);
 		cars = new Cars(data);
-		game = new Game(this);
+		
 		game.newGame();
 	}
 	
@@ -72,6 +72,8 @@ public class Model {
 	public DataGame getData() {
 		return data;
 	}
+	
+	
 	
 	
 	/* static */

@@ -97,7 +97,7 @@ public class TestModel extends JPanel{
 		xpoly1[cptpoly1] = 0;
 		ypoly1[cptpoly1] = hauteur_courante;
 				
-		g2.setColor(Color.GREEN);
+		g2.setColor(new Color(58, 137, 35));
 		g2.fillPolygon(xpoly1,ypoly1,cptpoly1 + 1);
 		
 
@@ -122,7 +122,7 @@ public class TestModel extends JPanel{
 		xpoly2[cptpoly2] = largeur_courante;
 		ypoly2[cptpoly2] = hauteur_courante;
 		
-		g2.setColor(Color.GREEN);
+		g2.setColor(new Color(58, 137, 35));
 		g2.fillPolygon(xpoly2,ypoly2,cptpoly2 + 1);
 		
 		
@@ -144,7 +144,25 @@ public class TestModel extends JPanel{
         
 		g2.setColor(Color.CYAN); 
 		g2.fillRect(0, 0 , largeur_courante,hauteur_courante - height_horizon);
-		/**/
+		
+		
+		/* DESSIN DU CHECKPOINT */
+		
+		ArrayList<Point> checkpoints = model.getRoad().getCheckPoint().getCheckPointsCoords(
+				model.getRoad().getLeftRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getRoad().getRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getRoad().getRightRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getData().getScorePlayer(), hauteur_courante, largeur_courante
+		
+		);
+		model.getRoad().getCheckPoint().checkPointComplete(checkpoints); /*TODO : A METTRE DANS LE MODEL */ 
+		g2.setColor(Color.RED); 		
+		if(checkpoints != null) {
+			//g2.drawLine( checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y), checkpoints.get(1).x, (hauteur_courante - checkpoints.get(1).y));
+			g2.drawRect(checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y),checkpoints.get(1).x - checkpoints.get(0).x, 
+				model.getRoad().getCheckPoint().getHeightWithPerspective(hauteur_courante));
+		}
+		
 	}
 
 	
@@ -183,6 +201,7 @@ class ThreadTestModel extends Thread{
 			while(true) {
 				Thread.sleep(10);
 				this.vue.repaint();
+				
 			}
 		}
 		catch(Exception e) {	

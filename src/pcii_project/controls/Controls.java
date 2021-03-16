@@ -32,12 +32,14 @@ public class Controls  implements KeyListener {
 	
 	/* attributs */
 	
-	private CarModel view;
+	//private CarModel view;
 	private Model model;
 	private ThreadControls threadControls;
 	
 	
-	/* constructors */
+	
+	
+	
 	public Controls(CarModel view, Model model) {
 		
 		view.getWindows().addKeyListener(this);
@@ -50,7 +52,25 @@ public class Controls  implements KeyListener {
 		
 		this.threadControls = new ThreadControls(model);
 		this.model = model;
-		this.view = view;
+		//this.view = view;
+		
+		new Thread(threadControls).start();
+	}
+	
+	/* test */
+	public Controls(TestModel view, Model model) {
+		
+		view.getWindows().addKeyListener(this);
+
+		view.getWindows().addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){  
+	          System.exit(0);  
+			}
+		});	
+		
+		this.threadControls = new ThreadControls(model);
+		this.model = model;
+		//this.view = view;
 		
 		new Thread(threadControls).start();
 	}
