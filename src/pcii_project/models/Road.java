@@ -318,7 +318,7 @@ class MoveThread extends Thread{
 					
 					
 					
-					System.out.println("Temps restant : " + road.getGame().getTimeremaining() + "s");
+					//System.out.println("Temps restant : " + road.getGame().getTimeremaining() + "s");
 					
 					
 					

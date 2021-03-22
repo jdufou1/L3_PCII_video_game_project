@@ -12,7 +12,7 @@ public class CheckPoint {
 
 	public static final int DISTANCE_BETWEEN_CHECKPOINTS = 4 * Model.HEIGHT_MAX;
 	
-	public static final int HEIGHT_CHECKPOINT = (int) ((double)(1  * (double)Model.HEIGHT_MAX) /15);
+	public static final int HEIGHT_CHECKPOINT = (int) ((double)(1  * (double)Model.HEIGHT_MAX) /12);
 	
 	public static final int BONUS_TIME = 10;
 	
@@ -42,8 +42,8 @@ public class CheckPoint {
 		if(data.getScorePlayer() > y_checkpoint) {
 			if(complete) {
 				System.out.println("[Bonus Temps] : +10s");
-				game.setBonusTime(game.getBonusTime() + 10);
-				data.setNbCheckpointsComplete(data.getNbCheckpointsComplete() + BONUS_TIME);
+				game.setBonusTime(game.getBonusTime() + BONUS_TIME);
+				data.setNbCheckpointsComplete(data.getNbCheckpointsComplete() + 1);
 			}
 			
 			side = random.nextInt(2);
@@ -161,9 +161,10 @@ public class CheckPoint {
 	
 	
 	
-	public int getHeightWithPerspective(int max_height) {
+	public int getHeighCheckPointWithPerspective(int max_height) {
 		double y =  (double)HEIGHT_CHECKPOINT / (double) Model.HEIGHT_MAX;
-		return (int) (y * max_height);
+		double yratecheckpoint = ((double)y_checkpoint - (double)data.getScorePlayer() )/ (double)Model.HEIGHT_MAX;
+		return (int) ((y * max_height) * (1 - yratecheckpoint)) ;
 	}
 	
 }

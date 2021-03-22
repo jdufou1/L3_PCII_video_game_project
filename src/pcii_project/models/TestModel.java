@@ -160,7 +160,7 @@ public class TestModel extends JPanel{
 		if(checkpoints != null) {
 			//g2.drawLine( checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y), checkpoints.get(1).x, (hauteur_courante - checkpoints.get(1).y));
 			g2.drawRect(checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y),checkpoints.get(1).x - checkpoints.get(0).x, 
-				model.getRoad().getCheckPoint().getHeightWithPerspective(hauteur_courante));
+				model.getRoad().getCheckPoint().getHeighCheckPointWithPerspective(hauteur_courante));
 		}
 		
 	}
