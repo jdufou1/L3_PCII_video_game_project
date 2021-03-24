@@ -128,12 +128,16 @@ public class CarModel extends JPanel{
 		g2.fillPolygon(xpoly2,ypoly2,cptpoly2 + 1);
 		int ty=model.getRoad().getData().getScorePlayer();
 			ty=ty-(ty/610)*610;
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),20, 160+ty, 150, 150, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),0, 300+ty, 150, 150, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),680, 200+ty, 70, 70, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),710, 260+ty, 90, 90, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),700, 460+ty, 110, 100, this);
-			g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
+			int a = (int)(0.8*largeur_courante);
+			int b = (int)(0.1*largeur_courante);
+			int treeHauteur = (int)(0.15*hauteur_courante);
+			int treeLargeur = (int)(0.15*largeur_courante);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),a, 260+ty, 90, 90, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
 
 		
 		/* DESSIN DE LA VOITURE */
@@ -144,6 +148,7 @@ public class CarModel extends JPanel{
 		int height_cars = model.getCars().getRelativeWidth(hauteur_courante);
 		g2.drawImage((new ImageIcon("car.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
 
+		
 		/* DESSIN DE L'HORIZON */
 		
 		int height_horizon = model.getHorizon().get_horizon_with_dimension(hauteur_courante);
@@ -152,9 +157,51 @@ public class CarModel extends JPanel{
 		g.drawRect(0, hauteur_courante - height_horizon, largeur_courante, height_horizon);
 
 		g2.drawImage((new ImageIcon("sky.jfif")).getImage(), 0, 0, largeur_courante,hauteur_courante - height_horizon, this);
-
-		g.drawString("KILOMETRE:"+model.getRoad().getData().getScorePlayer(), 640, 50);
 		/**/
+		
+		/*DESSIN speed & kilo*/
+		if(hauteur_courante>500 && largeur_courante>500) {
+			g.setColor(Color.WHITE);
+			int rect_large = (int) (0.2*largeur_courante);
+			int rect_hauteur = (int) (0.13*hauteur_courante);
+			int rect_speed_x = (int) (0.03*largeur_courante);
+			int rect_kilo_x = (int) (0.75*largeur_courante);
+			int rect_y = (int) (0.8*hauteur_courante);
+			g.fillRect(rect_speed_x, rect_y, rect_large , rect_hauteur);
+			g.fillRect(rect_kilo_x, rect_y, rect_large, rect_hauteur);
+		
+			g.setColor(Color.black);
+			int kilometre = (int)model.getRoad().getData().getScorePlayer();
+			int speed = (int)model.getRoad().getData().getFactorAcceleration();
+			int string_y = (int)(rect_y+(0.5*rect_hauteur));
+			int string_speed_x = (int) (rect_speed_x + 0.1*rect_large);
+			int string_kilo_x = (int) (rect_kilo_x + 0.1*rect_large);
+			g.drawString("KILOMETRE:"+ kilometre +"km", string_kilo_x, string_y);
+			g.drawString("SPEED:"+speed+"km/h", string_speed_x, string_y);
+		}
+		
+		
+		/* DESSIN DU CHECKPOINT */
+		
+		ArrayList<Point> checkpoints = model.getRoad().getCheckPoint().getCheckPointsCoords(
+				model.getRoad().getLeftRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getRoad().getRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getRoad().getRightRoad_points_with_score(model.getData().getScorePlayer()),
+				model.getData().getScorePlayer(), hauteur_courante, largeur_courante
+		
+		);
+		model.getRoad().getCheckPoint().checkPointComplete(checkpoints); /*TODO : A METTRE DANS LE MODEL */ 
+		g2.setColor(Color.RED); 		
+		if(checkpoints != null) {
+			//g2.drawLine( checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y), checkpoints.get(1).x, (hauteur_courante - checkpoints.get(1).y));
+			g2.drawImage((new ImageIcon("checkpoint.png")).getImage(), 
+					checkpoints.get(0).x, 
+					(hauteur_courante - checkpoints.get(0).y),
+					checkpoints.get(1).x - checkpoints.get(0).x, 
+					model.getRoad().getCheckPoint().getHeighCheckPointWithPerspective(hauteur_courante),
+					this);
+		}
+		
 	}
 
 	
