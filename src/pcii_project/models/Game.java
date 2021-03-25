@@ -39,11 +39,13 @@ public class Game {
 	}
 	
 	public void endGame() {
-		System.out.println("fin de partie");
+		System.out.println("[FIN DE PARTIE]");
 		chrono.stop();
 		threadGame.setActif(false);
 		endGame = true;
-		newGame();
+		
+		
+		//newGame();
 	}
 	
 	public void startChrono() {

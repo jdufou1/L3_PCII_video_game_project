@@ -88,7 +88,7 @@ public class Controls  implements KeyListener {
 	    	/* MISE EN PAUSE DU MODEL */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
 	    		threadControls.set_space();
-	    		StopView frame = new StopView(model);
+	    		StopView frame = new StopView(model,this);
 				frame.setVisible(true);
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
@@ -131,6 +131,10 @@ public class Controls  implements KeyListener {
 	    
 	    }
 		
+	}
+	
+	public void set_space() {
+		this.threadControls.set_space();
 	}
 	
 	
@@ -207,6 +211,10 @@ class ThreadControls extends Thread{
 	
 	public void set_space() {
 		this.space =! space;
+	}
+	
+	public void set_pause() {
+		this.pause =! pause;
 	}
 	
 	

@@ -172,10 +172,18 @@ public class TestModel extends JPanel{
 		return value;
 	}
 	
+	public void showEndGame() {
+		System.out.println("fin");
+	}
+	
 	/* getters and setters */
 	
 	public JFrame getWindows() {
 		return windows;
+	}
+	
+	public Model getModel() {
+		return model;
 	}
 }
 /*
@@ -201,6 +209,9 @@ class ThreadTestModel extends Thread{
 			while(true) {
 				Thread.sleep(10);
 				this.vue.repaint();
+				if(vue.getModel().getGame().gameOver()) {
+					vue.showEndGame();
+				}
 				
 			}
 		}

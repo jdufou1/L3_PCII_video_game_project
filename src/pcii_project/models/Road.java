@@ -39,7 +39,6 @@ public class Road {
 	
 	private Game game;
 	
-	
 	/* Constructor */
 	public Road(DataGame data,Game game) {
 		this.data = data;
@@ -102,9 +101,6 @@ public class Road {
 			height_tmp += HEIGHT_BETWEEN_TWO_POINTS;
 		}
 		
-		
-		
-		
 	}
 	
 	public void update_road() {
@@ -132,7 +128,7 @@ public class Road {
 		// Removing points
 		int cpt = 0;
 		while(cpt < road_points.size()) {
-			if(road_points.get(cpt).y < data.getScorePlayer() - Model.HEIGHT_MIN - (5 * HEIGHT_BETWEEN_TWO_POINTS) ) {
+			if(road_points.get(cpt).y < data.getScorePlayer() - Model.HEIGHT_MIN - (HEIGHT_BETWEEN_TWO_POINTS) ) {
 				road_points.remove(cpt);
 				left_bound_road.remove(cpt);
 				right_bound_road.remove(cpt);
@@ -146,16 +142,28 @@ public class Road {
 	}
 	
 	public boolean is_offside_right(int x_cars) {
-		ArrayList<Point> points = getRightRoad_points();
+		ArrayList<Point> points = right_bound_road;
 		Point p1 = points.get(0);
 		Point p2 = points.get(1);
-		// Calcul du coefficient directeur
-		double m =  (double) ((p2.y - p1.y)) / (double)  (p2.x - p1.x); 
-		// Calcul de l'ordonnee a l'origine
-		double p = (double) (p1.y - (m * p1.x));
-		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
-		int x = (int) (((data.getScorePlayer()) - p) / m);
 		
+		double Yp1 =  p1.y - data.getScorePlayer();
+		double rate1 = Yp1 / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+		int p1x = p1.x - (int)((rate1) * 1.5 * WIDTH_BETWEEN_TWO_POINTS);
+		
+		
+		
+		double Yp2 =  p2.y - data.getScorePlayer();
+		double rate2 = Yp2 / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+		int p2x = p2.x - (int)((rate2) * 1.5 * WIDTH_BETWEEN_TWO_POINTS);
+		
+		// Calcul du coefficient directeur
+		double m =  (double) ((p2.y - p1.y)) / (double)  (p2x - p1x); 
+		// Calcul de l'ordonnee a l'origine
+		double p = (double) (p1.y - (m * p1x));
+		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
+		
+		int x = (int) (((data.getScorePlayer() ) - p) / m);
+
 		if(x_cars + Cars.WIDTH_MAX_CARS > x) {
 			return true;
 		}
@@ -165,17 +173,28 @@ public class Road {
 	}
 	
 	public boolean is_offside_left(int x_cars) {
-		ArrayList<Point> points = getLeftRoad_points();
+		ArrayList<Point> points =  left_bound_road;
 		Point p1 = points.get(0);
 		Point p2 = points.get(1);
+		
+		double Yp1 =  p1.y - data.getScorePlayer();
+		double rate1 = Yp1 / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+		int p1x = p1.x + (int)((rate1) * 1.5 * WIDTH_BETWEEN_TWO_POINTS);
+		
+		
+		
+		double Yp2 =  p2.y - data.getScorePlayer();
+		double rate2 = Yp2 / (double) Horizon.HEIGHT_HORIZON /*+ (2 * HEIGHT_BETWEEN_TWO_POINTS))*/;
+		int p2x = p2.x + (int)((rate2) * 1.5 * WIDTH_BETWEEN_TWO_POINTS);
+		
+		
 		// Calcul du coefficient directeur
-		double m =  (double) ((p2.y - p1.y)) / (double)  (p2.x - p1.x);
+		double m =  (double) ((p2.y - p1.y)) / (double)  (p2x - p1x);
 		// Calcul de l'ordonnee a l'origine
-		double p = (double) (p1.y - (m * p1.x));
+		double p = (double) (p1.y - (m * p1x));
 		// Calcul de la coordonnee x sur la droite P1 - P2 : y = mx + p 
 		int x = (int) (((data.getScorePlayer()) - p) / m);
-		//System.out.println("x : "+x+"p2 : "+p2.x);
-		if(x_cars - Cars.WIDTH_MAX_CARS < x) {
+		if(x_cars + Cars.WIDTH_MAX_CARS < x) {
 			return true;
 		}
 		else{
@@ -273,6 +292,15 @@ public class Road {
 		return res;
 	}
 
+	
+	public int getWidthPerspective(int max_width,int y,int with_object) {
+		double y_relative = (double) y / (double) max_width;
+		/* POUR DONNER UN EFFET DE PERSPECTIVE */
+		return (int) (with_object * y_relative);
+	}
+	
+	
+	
 	public DataGame getData() {
 		return data;
 	}
@@ -323,7 +351,7 @@ class MoveThread extends Thread{
 					
 					
 					if(road.is_offside(road.getData().getPositionPlayer())) {
-						//System.out.println("hors-route");
+						road.getAcceleration().decrease_slowly_acceleration();
 					}
 				}
 					

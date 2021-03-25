@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import pcii_project.controls.Controls;
 import pcii_project.models.Model;
 
 import javax.swing.JButton;
@@ -21,7 +22,7 @@ public class StopView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StopView(Model model) {
+	public StopView(Model model,Controls control) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -41,6 +42,7 @@ public class StopView extends JFrame {
 		JButton btnConfirm = new JButton("CONTINUE");
 		btnConfirm.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				control.set_space();
 				model.continue_progress();
 				dispose();
 			}
