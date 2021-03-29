@@ -5,7 +5,8 @@ import pcii_project.view.StopView;
 
 public class TestSotpViewMain {
 	public static void main(String[] args) {
-		StopView frame = new StopView();
+		Model model = new Model();
+		StopView frame = new StopView(model);
 		frame.setVisible(true);
 
 	}

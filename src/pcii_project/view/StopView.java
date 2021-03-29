@@ -24,7 +24,7 @@ public class StopView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StopView() {
+	public StopView(Model model) {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Login");
@@ -54,12 +54,25 @@ public class StopView extends JFrame {
 		JButton btnQuit = new JButton("OK");
 		btnQuit.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				model.getGame().gameOver();
 				System.exit(0);
 			}
 		});
 		btnQuit.setBounds(47, 74, 112, 67);
 
 		add(btnQuit);
+		
+		//button quit
+				JButton btnNewGame = new JButton("OK");
+				btnQuit.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						model.getGame().newGame();
+						dispose();
+					}
+				});
+				btnNewGame.setBounds(47, 74, 112, 67);
+
+				add(btnNewGame);
 
 	
 
