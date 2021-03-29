@@ -69,8 +69,9 @@ public class DataGame {
 		this.nb_checkpoints_complete =  nb_checkpoints_complete;
 	}
 	
+	/* AFFICHAGE */
 	public int get_Kilometer_per_hours() {
-		return (int) factor_acceleration;
+			return (int) factor_acceleration;
 	}
 	
 	public int getRelativePositionPlayer(int max_width) {

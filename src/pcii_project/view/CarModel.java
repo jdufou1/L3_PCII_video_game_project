@@ -176,7 +176,10 @@ public class CarModel extends JPanel{
 		
 			g.setColor(Color.black);
 			int kilometre = (int)model.getRoad().getData().getScorePlayer();
-			int speed = (int)model.getRoad().getData().getFactorAcceleration();
+			double speed_factor = model.getRoad().getData().getFactorAcceleration();
+			int speed = 0;
+			if(speed_factor > 1.1)
+				speed = (int)speed_factor;
 			int string_y = (int)(rect_y+(0.5*rect_hauteur));
 			int string_speed_x = (int) (rect_speed_x + 0.1*rect_large);
 			int string_kilo_x = (int) (rect_kilo_x + 0.1*rect_large);
