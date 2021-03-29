@@ -20,16 +20,11 @@ public class StopView extends JFrame {
 	//private JPanel contentPane;
 
 
-	public StopView()
-	{
-
-	private JPanel contentPane;
-
 
 	/**
 	 * Create the frame.
 	 */
-	public StopView(Model model,Controls control) {
+	public StopView() {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Login");
@@ -66,6 +61,8 @@ public class StopView extends JFrame {
 
 		add(btnQuit);
 
+	
+
 	}
 	
 	public ImageIcon change(ImageIcon image,double i){//  i 为放缩的倍数
@@ -75,20 +72,5 @@ public class StopView extends JFrame {
 		ImageIcon image2=new ImageIcon(img);
 	 
 		return image2;
-
-		contentPane.add(btnQuit);
-		
-		JButton btnConfirm = new JButton("CONTINUE");
-		btnConfirm.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				control.set_space();
-				model.continue_progress();
-				dispose();
-			}
-		});
-		btnConfirm.setBounds(251, 74, 112, 67);
-		contentPane.add(btnConfirm);
-		
-
 	}
 }
