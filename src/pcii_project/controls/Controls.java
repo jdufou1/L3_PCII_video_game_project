@@ -174,7 +174,7 @@ class ThreadControls extends Thread{
 		try {
 			while(true) {
 				Thread.sleep(10);
-				if(!pause) {
+				if(!pause && !model.getGame().gameOver()) {
 					
 					if(right) {
 			    		model.getCars().move_right();
