@@ -29,7 +29,7 @@ public class ContinueView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnQuit = new JButton("QUIT");
+		JButton btnQuit = new JButton("Quitter le jeu");
 		btnQuit.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
@@ -38,7 +38,7 @@ public class ContinueView extends JFrame {
 		btnQuit.setBounds(47, 74, 112, 67);
 		contentPane.add(btnQuit);
 		
-		JButton btnConfirm = new JButton("CONTINUE");
+		JButton btnConfirm = new JButton("Continuer");
 		btnConfirm.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				model.continue_progress();
