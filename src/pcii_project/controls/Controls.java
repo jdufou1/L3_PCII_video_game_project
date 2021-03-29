@@ -98,9 +98,11 @@ public class Controls  implements KeyListener {
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
 	    		threadControls.set_right(true);
+	    		model.getCars().activeRight();
 	    	}
 	    	if(keyCode == KeyEvent.VK_LEFT) {
 	    		threadControls.set_left(true);
+	    		model.getCars().activeLeft();
 	    	}
 	    	if(keyCode == KeyEvent.VK_UP) {
 	    		threadControls.set_up(true);
@@ -123,9 +125,11 @@ public class Controls  implements KeyListener {
 	    try {
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
 	    		threadControls.set_right(false);
+	    		model.getCars().disabledSide();
 	    	}
 	    	if(keyCode == KeyEvent.VK_LEFT) {
 	    		threadControls.set_left(false);
+	    		model.getCars().disabledSide();
 	    	}
 	    	if(keyCode == KeyEvent.VK_UP) {
 	    		threadControls.set_up(false);

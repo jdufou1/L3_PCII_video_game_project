@@ -17,6 +17,12 @@ public class Cars {
 	
 	private DataGame data;
 	
+	private boolean right = false;
+	
+	private boolean left = false;
+	
+	private boolean slow_active = false;
+	
 	/* Constructor */
 	public Cars(DataGame data) {
 		this.data = data;
@@ -56,4 +62,36 @@ public class Cars {
 		return width;
 	}
 
+	public void activeRight() {
+		right = true;
+	}
+	
+	public void activeLeft() {
+		left = true;
+	}
+	
+	public void active_slow() {
+		slow_active = true;
+	}
+	
+	public void disabledSide() {
+		left = false;
+		right = false;
+	}
+	
+	public void disabled_slow() {
+		slow_active = false;
+	}
+	
+	public boolean getRight() {
+		return right;
+	}
+	
+	public boolean getLeft() {
+		return left;
+	}
+	
+	public boolean is_slowly() {
+		return slow_active;
+	}
 }

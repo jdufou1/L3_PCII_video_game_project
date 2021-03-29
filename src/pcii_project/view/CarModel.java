@@ -158,8 +158,24 @@ public class CarModel extends JPanel{
 		int placementY_cars = model.getCars().getRelativePlacementY(hauteur_courante);
 		int width_cars = model.getCars().getRelativeWidth(largeur_courante);
 		int height_cars = model.getCars().getRelativeHeight(hauteur_courante);
-		g2.drawImage((new ImageIcon("img/voiture.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
-
+		if(model.getCars().getLeft()) {
+			if(model.getCars().is_slowly()) 
+				g2.drawImage((new ImageIcon("img/voiture_left_feux_active.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+			else
+				g2.drawImage((new ImageIcon("img/voiture_left.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+		}
+		else if(model.getCars().getRight()) {
+			if(model.getCars().is_slowly()) 
+				g2.drawImage((new ImageIcon("img/voiture_right_feux_active.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+			else
+				g2.drawImage((new ImageIcon("img/voiture_right.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+		}
+		else {
+			if(model.getCars().is_slowly()) 
+				g2.drawImage((new ImageIcon("img/voiture_feux_active.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+			else
+				g2.drawImage((new ImageIcon("img/voiture.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+		}
 		
 		/* DESSIN DE L'HORIZON */
 		

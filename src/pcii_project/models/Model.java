@@ -33,8 +33,9 @@ public class Model {
 		game = new Game(this);
 		data = new DataGame();
 		horizon = new Horizon();
-		road = new Road(data,game);
 		cars = new Cars(data);
+		road = new Road(data,game,cars);
+		
 		
 		game.newGame();
 	}

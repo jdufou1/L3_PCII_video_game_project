@@ -39,10 +39,13 @@ public class Road {
 	
 	private Game game;
 	
+	private Cars cars;
+	
 	/* Constructor */
-	public Road(DataGame data,Game game) {
+	public Road(DataGame data,Game game, Cars cars) {
 		this.data = data;
 		this.game = game;
+		this.cars = cars;
 		this.checkpoint = new CheckPoint(data,game);
 		this.acceleration = new Acceleration(data);
 		data.setPositionPlayer(0);
@@ -316,6 +319,10 @@ public class Road {
 	public Game getGame() {
 		return game;
 	}
+	
+	public Cars getCars() {
+		return cars;
+	}
 
 	
 	
@@ -352,6 +359,10 @@ class MoveThread extends Thread{
 					
 					if(road.is_offside(road.getData().getPositionPlayer())) {
 						road.getAcceleration().decrease_slowly_acceleration();
+						road.getCars().active_slow();
+					}
+					else {
+						road.getCars().disabled_slow();
 					}
 				}
 					
