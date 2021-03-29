@@ -19,10 +19,10 @@ import pcii_project.models.Model;
 public class StopView extends JFrame {
 	//private JPanel contentPane;
 
-<<<<<<< HEAD
+
 	public StopView()
 	{
-=======
+
 	private JPanel contentPane;
 
 
@@ -30,7 +30,7 @@ public class StopView extends JFrame {
 	 * Create the frame.
 	 */
 	public StopView(Model model,Controls control) {
->>>>>>> e5998aa182fdadeb1021bd9d4c338fcb3128ee87
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Login");
 		setBounds(100,100,550,400);
@@ -63,7 +63,7 @@ public class StopView extends JFrame {
 			}
 		});
 		btnQuit.setBounds(47, 74, 112, 67);
-<<<<<<< HEAD
+
 		add(btnQuit);
 
 	}
@@ -75,7 +75,7 @@ public class StopView extends JFrame {
 		ImageIcon image2=new ImageIcon(img);
 	 
 		return image2;
-=======
+
 		contentPane.add(btnQuit);
 		
 		JButton btnConfirm = new JButton("CONTINUE");
@@ -89,6 +89,6 @@ public class StopView extends JFrame {
 		btnConfirm.setBounds(251, 74, 112, 67);
 		contentPane.add(btnConfirm);
 		
->>>>>>> e5998aa182fdadeb1021bd9d4c338fcb3128ee87
+
 	}
 }

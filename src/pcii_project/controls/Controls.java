@@ -89,11 +89,11 @@ public class Controls  implements KeyListener {
 	    	/* MISE EN PAUSE DU MODEL */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
 	    		threadControls.set_space();
-<<<<<<< HEAD
+
 	    		ContinueView frame = new ContinueView(model);
-=======
-	    		StopView frame = new StopView(model,this);
->>>>>>> e5998aa182fdadeb1021bd9d4c338fcb3128ee87
+
+	    		//StopView frame = new StopView(model,this);
+
 				frame.setVisible(true);
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
