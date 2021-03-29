@@ -138,21 +138,24 @@ public class CarModel extends JPanel{
 			int treeHauteur = (int)(0.15*hauteur_courante);
 			int treeLargeur = (int)(0.15*largeur_courante);
 
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
+			/*g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, 90, 90, this);
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);*/
 
-			/* EXEMPLE PERSPECTIVE */
-			int treeHauteur1 = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*hauteur_courante));
-			int treeLargeur1 = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*largeur_courante));
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),20, 150+ty, treeLargeur1,treeHauteur1 , this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),a, 260+ty, 90, 90, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+			/* PERSPECTIVE */
+			int treeHauteurSmall = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*hauteur_courante));
+			int treeLargeurSmall = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*largeur_courante));
 			
+			int treeHauteurBig = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.30*largeur_courante));
+			int treeLargeurBig = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.30*largeur_courante));
+			
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeurBig,treeHauteurBig , this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeurBig,treeHauteurBig, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 100+ty, treeLargeurSmall, treeHauteurSmall, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, treeLargeurSmall, treeHauteurSmall, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, treeLargeurSmall, treeHauteurSmall, this);
 
 			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
 
