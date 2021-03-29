@@ -7,7 +7,7 @@ public class Cars {
 	/* The constants */
 	
 	public static final int HEIGHT_MAX_CARS = 80;
-	public static final int WIDTH_MAX_CARS = 80;
+	public static final int WIDTH_MAX_CARS = 75;
 	
 	public static final int PLACEMENTY_CARS = 0;
 	
@@ -55,8 +55,5 @@ public class Cars {
 		int width = (int) (relative_height * max_width);
 		return width;
 	}
-	
-	public static void main(String[] args) {
-	
-	}
+
 }

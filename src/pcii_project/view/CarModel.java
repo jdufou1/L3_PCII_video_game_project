@@ -157,8 +157,8 @@ public class CarModel extends JPanel{
 		int placementX_cars = model.getData().getRelativePositionPlayer(largeur_courante);
 		int placementY_cars = model.getCars().getRelativePlacementY(hauteur_courante);
 		int width_cars = model.getCars().getRelativeWidth(largeur_courante);
-		int height_cars = model.getCars().getRelativeWidth(hauteur_courante);
-		g2.drawImage((new ImageIcon("img/car.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+		int height_cars = model.getCars().getRelativeHeight(hauteur_courante);
+		g2.drawImage((new ImageIcon("img/voiture.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
 
 		
 		/* DESSIN DE L'HORIZON */
