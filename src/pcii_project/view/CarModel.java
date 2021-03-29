@@ -36,11 +36,14 @@ public class CarModel extends JPanel{
 	
 	private Thread threadmodel;
 	
+	private EndGameView endGameView;
+	
+	
 	/* constructors */
 	
 	public CarModel(Model model) {
 		this.model = model;
-		
+		endGameView = new EndGameView(this,model);
 		windows.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 		windows.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		windows.add(this);
@@ -62,6 +65,8 @@ public class CarModel extends JPanel{
 		int hauteur_courante = getHeight();
 		int largeur_courante = getWidth();
 		/* recuperation des elements du model pour affichge */
+		
+		
 		
 		/* DESSIN DE LA ROUTE */
 		
@@ -207,8 +212,8 @@ public class CarModel extends JPanel{
 			int string_y = (int)(rect_y+(0.5*rect_hauteur));
 			int string_speed_x = (int) (rect_speed_x + 0.1*rect_large);
 			int string_kilo_x = (int) (rect_kilo_x + 0.1*rect_large);
-			g.drawString("KILOMETRE:"+ kilometre +"km", string_kilo_x, string_y);
-			g.drawString("SPEED:"+speed+"km/h", string_speed_x, string_y);
+			g.drawString("Metres:"+ kilometre +"km", string_kilo_x, string_y);
+			g.drawString("Vitesse:"+speed+"km/h", string_speed_x, string_y);
 		}
 		
 		
@@ -247,6 +252,14 @@ public class CarModel extends JPanel{
 	public JFrame getWindows() {
 		return windows;
 	}
+	
+	public Model getModel() {
+		return model;
+	}
+	
+	public EndGameView getEndGameView() {
+		return endGameView;
+	}
 }
 /*
  * Classe utilis� par Affichage qui permet de mettre a jour l'affichage 
@@ -261,6 +274,7 @@ class ThreadTestModel extends Thread{
 	
 	private CarModel vue;
 	
+	
 	public ThreadTestModel(CarModel vue) {
 		this.vue = vue;
 	}
@@ -270,7 +284,15 @@ class ThreadTestModel extends Thread{
 		try {
 			while(true) {
 				Thread.sleep(10);
-				this.vue.repaint();
+				
+				/* AFFICHAGE DE LA PAGE DE FIN DE JEU */
+				if(vue.getModel().getGame().gameOver() && !vue.getEndGameView().getDisplayed()){
+					vue.getEndGameView().display();
+					vue.getEndGameView().setDisplayed(true);
+				}
+				else {
+					this.vue.repaint();
+				}
 			}
 		}
 		catch(Exception e) {	

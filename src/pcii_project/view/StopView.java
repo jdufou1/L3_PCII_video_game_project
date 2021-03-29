@@ -4,16 +4,11 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import pcii_project.controls.Controls;
 import pcii_project.models.Model;
 
 public class StopView extends JFrame {
@@ -78,10 +73,10 @@ public class StopView extends JFrame {
 
 	}
 	
-	public ImageIcon change(ImageIcon image,double i){//  i 为放缩的倍数
+	public ImageIcon change(ImageIcon image,double i){
 		int width=(int) (image.getIconWidth()*i);
 		int height=(int) (image.getIconHeight()*i);
-		Image img=image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);//第三个值可以去查api是图片转化的方式
+		Image img=image.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT);
 		ImageIcon image2=new ImageIcon(img);
 	 
 		return image2;
