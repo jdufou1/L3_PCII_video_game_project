@@ -132,11 +132,23 @@ public class CarModel extends JPanel{
 			int b = (int)(0.1*largeur_courante);
 			int treeHauteur = (int)(0.15*hauteur_courante);
 			int treeLargeur = (int)(0.15*largeur_courante);
+<<<<<<< HEAD
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, 90, 90, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+=======
+			/* EXEMPLE PERSPECTIVE */
+			int treeHauteur1 = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*hauteur_courante));
+			int treeLargeur1 = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*largeur_courante));
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),20, 150+ty, treeLargeur1,treeHauteur1 , this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),a, 260+ty, 90, 90, this);
+			g2.drawImage((new ImageIcon("tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+			
+>>>>>>> e5998aa182fdadeb1021bd9d4c338fcb3128ee87
 			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
 
 		

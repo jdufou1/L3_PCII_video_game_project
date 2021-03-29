@@ -9,7 +9,7 @@ public class Acceleration {
 
 	public static final double ACCELERATION = 0.01;
 	
-	public static final int VITESSE_MAX_LVL1 = 20;
+	public static final int VITESSE_MAX_LVL1 = 10;
 	
 	public static final int VITESSE_MAX_LVL2 = 40;
 	
@@ -51,6 +51,13 @@ public class Acceleration {
 		if(data.getFactorAcceleration() < 1 ) 
 			data.setFactorAcceleration(1.0);
 	}
+	
+	public void decrease_slowly_acceleration() {
+		data.setFactorAcceleration( data.getFactorAcceleration() * 0.90);
+		if(data.getFactorAcceleration() < 1 ) 
+			data.setFactorAcceleration(1.0);
+	}
+	
 	
 	public void start_acceleration() {
 		//System.out.println(data.getFactorAcceleration() + " km/h");

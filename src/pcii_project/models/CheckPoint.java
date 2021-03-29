@@ -155,11 +155,8 @@ public class CheckPoint {
 		result.add(new Point(x1,y1));
 		result.add(new Point(x2,y2));
 		
-		
 		return result;
 	}
-	
-	
 	
 	public int getHeighCheckPointWithPerspective(int max_height) {
 		double y =  (double)HEIGHT_CHECKPOINT / (double) Model.HEIGHT_MAX;

@@ -73,6 +73,9 @@ public class Model {
 		return data;
 	}
 	
+	public Game getGame() {
+		return game;
+	}
 	
 	
 	
@@ -105,11 +108,12 @@ public class Model {
 		System.out.println("premier points : ");
 		System.out.println(road.getRoad_points());
 	}
-	
+	/*
 	public static void main(String[] args) {
 		Model model = new Model();
 		model.debbug_display();
 	}
+	*/
 }
 
 
