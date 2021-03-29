@@ -11,6 +11,7 @@ import pcii_project.models.Road;
 import pcii_project.models.TestModel;
 import pcii_project.models.data.DataGame;
 import pcii_project.view.CarModel;
+import pcii_project.view.ContinueView;
 import pcii_project.view.StopView;
 
 
@@ -88,7 +89,11 @@ public class Controls  implements KeyListener {
 	    	/* MISE EN PAUSE DU MODEL */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
 	    		threadControls.set_space();
-	    		StopView frame = new StopView(model,this);
+
+	    		ContinueView frame = new ContinueView(model);
+
+	    		//StopView frame = new StopView(model,this);
+
 				frame.setVisible(true);
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
