@@ -132,11 +132,11 @@ public class CarModel extends JPanel{
 			int b = (int)(0.1*largeur_courante);
 			int treeHauteur = (int)(0.15*hauteur_courante);
 			int treeLargeur = (int)(0.15*largeur_courante);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),a, 260+ty, 90, 90, this);
-			g2.drawImage((new ImageIcon("tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, 90, 90, this);
+			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);
 			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
 
 		
@@ -146,7 +146,7 @@ public class CarModel extends JPanel{
 		int placementY_cars = model.getCars().getRelativePlacementY(hauteur_courante);
 		int width_cars = model.getCars().getRelativeWidth(largeur_courante);
 		int height_cars = model.getCars().getRelativeWidth(hauteur_courante);
-		g2.drawImage((new ImageIcon("car.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
+		g2.drawImage((new ImageIcon("img/car.png")).getImage(), placementX_cars, hauteur_courante - height_cars - placementY_cars, width_cars, height_cars, this);
 
 		
 		/* DESSIN DE L'HORIZON */
@@ -156,7 +156,7 @@ public class CarModel extends JPanel{
 		
 		g.drawRect(0, hauteur_courante - height_horizon, largeur_courante, height_horizon);
 
-		g2.drawImage((new ImageIcon("sky.jfif")).getImage(), 0, 0, largeur_courante,hauteur_courante - height_horizon, this);
+		g2.drawImage((new ImageIcon("img/sky.jfif")).getImage(), 0, 0, largeur_courante,hauteur_courante - height_horizon, this);
 		/**/
 		
 		/*DESSIN speed & kilo*/
@@ -194,7 +194,7 @@ public class CarModel extends JPanel{
 		g2.setColor(Color.RED); 		
 		if(checkpoints != null) {
 			//g2.drawLine( checkpoints.get(0).x, (hauteur_courante - checkpoints.get(0).y), checkpoints.get(1).x, (hauteur_courante - checkpoints.get(1).y));
-			g2.drawImage((new ImageIcon("checkpoint.png")).getImage(), 
+			g2.drawImage((new ImageIcon("img/checkpoint.png")).getImage(), 
 					checkpoints.get(0).x, 
 					(hauteur_courante - checkpoints.get(0).y),
 					checkpoints.get(1).x - checkpoints.get(0).x, 
