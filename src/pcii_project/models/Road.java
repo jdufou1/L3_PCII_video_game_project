@@ -41,13 +41,16 @@ public class Road {
 	
 	private Cars cars;
 	
+	private ArrayList<Tree> trees;
+	
 	/* Constructor */
-	public Road(DataGame data,Game game, Cars cars) {
+	public Road(Model model,DataGame data,Game game, Cars cars, ArrayList<Tree> trees) {
 		this.data = data;
 		this.game = game;
 		this.cars = cars;
+		this.trees = trees;
 		this.checkpoint = new CheckPoint(data,game);
-		this.acceleration = new Acceleration(data);
+		this.acceleration = new Acceleration(data,model);
 		data.setPositionPlayer(0);
 		
 		random = new Random();
@@ -324,6 +327,9 @@ public class Road {
 		return cars;
 	}
 
+	public ArrayList<Tree> getTrees(){
+		return trees;
+	}
 	
 	
 }
@@ -350,8 +356,12 @@ class MoveThread extends Thread{
 					road.update_road();
 					road.getCheckPoint().update();
 					/* UPDATE CHECKPOINTS */
-					
-					
+					/*
+					ArrayList<Tree> trees = road.getTrees();
+					for(Tree tree : trees) {
+						tree.update();
+					}
+					*/
 					
 					//System.out.println("Temps restant : " + road.getGame().getTimeremaining() + "s");
 					

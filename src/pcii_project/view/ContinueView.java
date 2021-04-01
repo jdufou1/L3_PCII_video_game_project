@@ -22,6 +22,7 @@ public class ContinueView extends JFrame {
 	 * Create the frame.
 	 */
 	public ContinueView(Model model) {
+		setTitle("Menu pause");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

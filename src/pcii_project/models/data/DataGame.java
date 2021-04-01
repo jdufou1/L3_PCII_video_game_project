@@ -33,7 +33,6 @@ public class DataGame {
 		nb_checkpoints_complete = 0;
 		position_player = (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (Cars.WIDTH_MAX_CARS / 2);
 	}
-	
 	/* getters and setters */
 	
 	public int getScorePlayer() {

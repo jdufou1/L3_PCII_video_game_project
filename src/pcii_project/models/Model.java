@@ -1,5 +1,7 @@
 package pcii_project.models;
 
+import java.util.ArrayList;
+
 import pcii_project.models.data.DataGame;
 
 public class Model {
@@ -28,15 +30,25 @@ public class Model {
 	
 	private Game game;
 	
+	private Bird b1,b2;
+	
+	private ArrayList<Tree> trees;
+	
 	/* Constructor */
 	public Model() {
 		game = new Game(this);
 		data = new DataGame();
 		horizon = new Horizon();
 		cars = new Cars(data);
-		road = new Road(data,game,cars);
 		
+		//initializeTree();
+		b1 = new Bird(560, 500, false,true);
+		b1.active();
 		
+		b2 = new Bird(520, 700, true,false);
+		b2.active();
+		
+		road = new Road(this,data,game,cars,trees);
 		game.newGame();
 	}
 	
@@ -54,6 +66,14 @@ public class Model {
 		data.reinitialize();
 		road.create_road();
 		road.getCheckPoint().reset();
+	}
+	
+	public void initializeTree() {
+		trees = new ArrayList<Tree>();
+		Tree t1 = new Tree(data, road, 800, HEIGHT_MAX);
+		//Tree t2 = new Tree(data, road, 200, HEIGHT_MAX);
+		trees.add(t1);
+		//trees.add(t2);
 	}
 	
 	/* getters and setters */
@@ -76,6 +96,40 @@ public class Model {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public ArrayList<Bird> getBirds(){
+		ArrayList<Bird> birds = new ArrayList<Bird>();
+		birds.add(b1);
+		birds.add(b2);
+		return birds;
+	}
+	
+	public ArrayList<Tree> getTrees(){
+		updateTrees();
+		return trees;
+	}
+	
+	public void updateTrees() {
+		/*
+		for(Tree tree : trees) {
+			if(tree.getY() < 0) {
+				trees.remove(tree);
+				addTree();
+			}
+		}
+		*/
+	}
+	
+	public void addTree() {
+		Tree t = new Tree(data, road, 800, HEIGHT_MAX);
+		
+		trees.add(t);
+	}
+	
+	public void decreaseAllTrees() {
+		for(Tree tree : trees)
+			tree.decreaseY();
 	}
 	
 	

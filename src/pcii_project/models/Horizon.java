@@ -1,7 +1,5 @@
 package pcii_project.models;
 
-import pcii_project.models.data.DataGame;
-
 public class Horizon {
 
 	/* The constants */

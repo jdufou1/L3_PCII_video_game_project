@@ -4,7 +4,7 @@ public class Game {
 
 	/* constantes */
 	
-	public static final double CHRONO_MAX = 20.0;
+	public static final double CHRONO_MAX = 10.0;
 		
 	/* attributs */
 	private Model model;

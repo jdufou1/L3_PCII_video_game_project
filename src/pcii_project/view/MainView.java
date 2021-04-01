@@ -11,9 +11,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import pcii_project.models.Bird;
 import pcii_project.models.Model;
 
-public class CarModel extends JPanel{
+public class MainView extends JPanel{
 
 	/* constantes */
 	
@@ -32,7 +33,7 @@ public class CarModel extends JPanel{
 	
 	private Model model;
 	
-	private JFrame windows = new JFrame("Test");
+	private JFrame windows = new JFrame("Jeu de course de voiture");
 	
 	private Thread threadmodel;
 	
@@ -41,7 +42,7 @@ public class CarModel extends JPanel{
 	
 	/* constructors */
 	
-	public CarModel(Model model) {
+	public MainView(Model model) {
 		this.model = model;
 		endGameView = new EndGameView(this,model);
 		windows.setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -132,12 +133,11 @@ public class CarModel extends JPanel{
 		g2.setColor(new Color(58, 137, 35));;
 		g2.fillPolygon(xpoly2,ypoly2,cptpoly2 + 1);
 		int ty=model.getRoad().getData().getScorePlayer();
-			ty=ty-(ty/610)*610;
-			int a = (int)(0.8*largeur_courante);
-			int b = (int)(0.1*largeur_courante);
-			int treeHauteur = (int)(0.15*hauteur_courante);
-			int treeLargeur = (int)(0.15*largeur_courante);
-
+		ty=ty-(ty/610)*610;
+		int a = (int)(0.8*largeur_courante);
+		int b = (int)(0.1*largeur_courante);
+		int treeHauteur = (int)(0.15*hauteur_courante);
+		int treeLargeur = (int)(0.15*largeur_courante);
 			/*g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
@@ -145,6 +145,7 @@ public class CarModel extends JPanel{
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);*/
 
 			/* PERSPECTIVE */
+			
 			int treeHauteurSmall = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*hauteur_courante));
 			int treeLargeurSmall = model.getRoad().getWidthPerspective(hauteur_courante, 150+ty, (int)(0.20*largeur_courante));
 			
@@ -156,7 +157,21 @@ public class CarModel extends JPanel{
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 100+ty, treeLargeurSmall, treeHauteurSmall, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, treeLargeurSmall, treeHauteurSmall, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, treeLargeurSmall, treeHauteurSmall, this);
-
+			
+		/* DESSIN DES ARBRES */
+		/*
+		for(int cptArbre = 0 ; cptArbre < model.getTrees().size(); cptArbre++) {
+			g2.drawImage(
+					(new ImageIcon("img/tree.png")).getImage(),
+					model.getTrees().get(cptArbre).getXWithDimension(largeur_courante),
+					(hauteur_courante - model.getTrees().get(cptArbre).getYWithDimension(hauteur_courante)), 
+					model.getTrees().get(cptArbre).getWidthWithDimension(largeur_courante), 
+					model.getTrees().get(cptArbre).getHeightWithDimension(hauteur_courante), 
+					this
+					);
+		}
+		*/
+			
 			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
 
 		
@@ -215,8 +230,8 @@ public class CarModel extends JPanel{
 			int string_y = (int)(rect_y+(0.5*rect_hauteur));
 			int string_speed_x = (int) (rect_speed_x + 0.1*rect_large);
 			int string_kilo_x = (int) (rect_kilo_x + 0.1*rect_large);
-			g.drawString("Metres:"+ kilometre +"km", string_kilo_x, string_y);
-			g.drawString("Vitesse:"+speed+"km/h", string_speed_x, string_y);
+			g.drawString("Metres:"+ kilometre +"m", string_kilo_x, string_y);
+			g.drawString("Vitesse:"+(speed*4)+"km/h", string_speed_x, string_y);
 		}
 		
 		
@@ -240,6 +255,64 @@ public class CarModel extends JPanel{
 					model.getRoad().getCheckPoint().getHeighCheckPointWithPerspective(hauteur_courante),
 					this);
 		}
+		
+		
+		
+		/* DESSIN DES OISEAUX */
+		
+		for(int cptBird = 0 ; cptBird < model.getBirds().size(); cptBird++) {
+			
+			if(model.getBirds().get(cptBird).getDirection()) {
+				
+				if(model.getBirds().get(cptBird).getAction()) {
+					g2.drawImage((new ImageIcon("img/oiseau_plan2_droite.png")).getImage(), 
+							model.getBirds().get(cptBird).getXWithDimension(largeur_courante),
+							(hauteur_courante - model.getBirds().get(cptBird).getYWithDimension(hauteur_courante)),
+							model.getBirds().get(cptBird).getWidthWithDimension(largeur_courante),
+							model.getBirds().get(cptBird).getHeightWithDimension(hauteur_courante),
+							this
+							);
+				}
+				else {
+					g2.drawImage((new ImageIcon("img/oiseau_plan1_droite.png")).getImage(), 
+							model.getBirds().get(cptBird).getXWithDimension(largeur_courante),
+							(hauteur_courante - model.getBirds().get(cptBird).getYWithDimension(hauteur_courante)),
+							model.getBirds().get(cptBird).getWidthWithDimension(largeur_courante),
+							model.getBirds().get(cptBird).getHeightWithDimension(hauteur_courante),
+							this
+							);
+				}
+				
+				
+				
+				
+			}
+			else {
+				if(model.getBirds().get(cptBird).getAction()) {
+					g2.drawImage((new ImageIcon("img/oiseau_plan2_gauche.png")).getImage(), 
+							model.getBirds().get(cptBird).getXWithDimension(largeur_courante),
+							(hauteur_courante - model.getBirds().get(cptBird).getYWithDimension(hauteur_courante)),
+							model.getBirds().get(cptBird).getWidthWithDimension(largeur_courante),
+							model.getBirds().get(cptBird).getHeightWithDimension(hauteur_courante),
+							this
+							);
+				}
+				else {
+					g2.drawImage((new ImageIcon("img/oiseau_plan1_gauche.png")).getImage(), 
+							model.getBirds().get(cptBird).getXWithDimension(largeur_courante),
+							(hauteur_courante - model.getBirds().get(cptBird).getYWithDimension(hauteur_courante)),
+							model.getBirds().get(cptBird).getWidthWithDimension(largeur_courante),
+							model.getBirds().get(cptBird).getHeightWithDimension(hauteur_courante),
+							this
+							);
+				}
+				
+			}
+			
+		}
+		
+		
+		
 		
 	}
 
@@ -275,10 +348,10 @@ class ThreadTestModel extends Thread{
 	
 	/* Attributs */
 	
-	private CarModel vue;
+	private MainView vue;
 	
 	
-	public ThreadTestModel(CarModel vue) {
+	public ThreadTestModel(MainView vue) {
 		this.vue = vue;
 	}
 	

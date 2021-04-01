@@ -22,9 +22,12 @@ public class Acceleration {
 	private ThreadStartAcceleration threadAcc;
 	
 	private DataGame data;
+	
+	private Model model;
 	/* Constructors */
 	
-	public Acceleration(DataGame data) {
+	public Acceleration(DataGame data,Model model) {
+		this.model = model;
 		this.data = data;
 		threadAcc = new ThreadStartAcceleration(this,data);
 		new Thread(threadAcc).start();
@@ -84,6 +87,9 @@ public class Acceleration {
 	
 	/* private functions */
 	
+	public Model getModel() {
+		return model;
+	}
 	
 	
 }
@@ -119,6 +125,7 @@ class ThreadStartAcceleration extends Thread{
 						if(data.getFactorAcceleration() > 1.1) {
 							//System.out.println("passage");
 							//System.out.println(data.get_Kilometer_per_hours() + " km/h");
+							//acceleration.getModel().decreaseAllTrees();
 							data.setScorePlayer((int) (data.getScorePlayer() + (Road.MOVE_STEP_VALUE * data.getFactorAcceleration())));
 						}
 					}

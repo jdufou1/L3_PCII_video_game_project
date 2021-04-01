@@ -27,7 +27,7 @@ public class EndGameView extends JFrame implements ActionListener{
 	
 	/* attributs */
 	
-	private CarModel mainView;
+	private MainView mainView;
 	
 	private Model model;
 	
@@ -40,7 +40,7 @@ public class EndGameView extends JFrame implements ActionListener{
 	
 	private boolean displayed = false;
 	
-	public EndGameView(CarModel mainView,Model model) {
+	public EndGameView(MainView mainView,Model model) {
 		super();
 		this.mainView = mainView;
 		this.model = model;

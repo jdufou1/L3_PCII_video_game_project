@@ -10,7 +10,7 @@ import pcii_project.models.Model;
 import pcii_project.models.Road;
 import pcii_project.models.TestModel;
 import pcii_project.models.data.DataGame;
-import pcii_project.view.CarModel;
+import pcii_project.view.MainView;
 import pcii_project.view.ContinueView;
 import pcii_project.view.StopView;
 
@@ -41,7 +41,7 @@ public class Controls  implements KeyListener {
 	
 	
 	
-	public Controls(CarModel view, Model model) {
+	public Controls(MainView view, Model model) {
 		
 		view.getWindows().addKeyListener(this);
 
@@ -185,6 +185,7 @@ class ThreadControls extends Thread{
 			    	if(up) {
 			    		model.getRoad().move();
 			    		model.getRoad().getAcceleration().start_acceleration();
+			    		//model.decreaseAllTrees();
 			    	}
 			    	if(!up) {
 			    		model.getRoad().getAcceleration().end_acceleration();
