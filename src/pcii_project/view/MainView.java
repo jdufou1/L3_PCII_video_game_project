@@ -14,34 +14,33 @@ import javax.swing.JPanel;
 import pcii_project.models.Bird;
 import pcii_project.models.Model;
 
+/*
+ * Class MainView
+ * Affichage de l'interface graphique du jeu
+ * */
 public class MainView extends JPanel{
 
-	/* constantes */
+	/* Constants */
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	public static final int HEIGHT = 800;
-	
 	public static final int WIDTH = 800;
-	
 	public static final int HEIGHT_HORIZON = (int) ((double) ((double) HEIGHT) * 4.0/5.0);
 	
-	/* attributs */
+	private static final long serialVersionUID = 1L;
 	
-	private Model model;
+	/* Attributes */
 	
-	private JFrame windows = new JFrame("Jeu de course de voiture");
-	
-	private Thread threadmodel;
-	
-	private EndGameView endGameView;
+	private Model model; /* Modele */
+	private JFrame windows = new JFrame("Jeu de course de voiture"); /* Fenetre du jeu */
+	private Thread threadmodel; /* Thread de rafraichissement de l'interface graphique */
+	private EndGameView endGameView; /* Fenetre de pause du jeu*/
 	
 	
 	/* constructors */
 	
+	/*
+	 * @Param Model model
+	 * */
 	public MainView(Model model) {
 		this.model = model;
 		endGameView = new EndGameView(this,model);
@@ -51,13 +50,20 @@ public class MainView extends JPanel{
 		threadmodel = new Thread(new ThreadTestModel(this));
 	}
 	
+	/*
+	 * @Param void
+	 * Affichage et rend visible l'interface graphique
+	 * */
 	public void show() {
 		windows.pack();
 		windows.setVisible(true);
 		threadmodel.start();
 	}
 	
-	int i=400;
+	/*
+	 * @Param Graphics g
+	 * Redessinage de l'interface graphique
+	 * */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -66,8 +72,6 @@ public class MainView extends JPanel{
 		int hauteur_courante = getHeight();
 		int largeur_courante = getWidth();
 		/* recuperation des elements du model pour affichge */
-		
-		
 		
 		/* DESSIN DE LA ROUTE */
 		
@@ -85,7 +89,6 @@ public class MainView extends JPanel{
 		/* DESSIN DE L'ACCOTEMENT */
 		/* GAUCHE */
 		ArrayList<Point> leftpoints = model.getRoad().getLeftRoad_points_with_dimension(getGraphicalHorizonValue(hauteur_courante), largeur_courante);
-		
 		
 		int[] xpoly1 = new int[leftpoints.size() + 2];
 		int[] ypoly1 = new int[leftpoints.size() + 2];
@@ -138,11 +141,6 @@ public class MainView extends JPanel{
 		int b = (int)(0.1*largeur_courante);
 		int treeHauteur = (int)(0.15*hauteur_courante);
 		int treeLargeur = (int)(0.15*largeur_courante);
-			/*g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20, 150+ty, treeLargeur,treeHauteur , this);
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),0, 400+ty, treeLargeur,treeHauteur, this);
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),10+a, 200+ty, 70, 70, this);
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, 90, 90, this);
-			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, 110, 100, this);*/
 
 			/* PERSPECTIVE */
 			
@@ -158,23 +156,6 @@ public class MainView extends JPanel{
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),a, 260+ty, treeLargeurSmall, treeHauteurSmall, this);
 			g2.drawImage((new ImageIcon("img/tree.png")).getImage(),20+a, 460+ty, treeLargeurSmall, treeHauteurSmall, this);
 			
-		/* DESSIN DES ARBRES */
-		/*
-		for(int cptArbre = 0 ; cptArbre < model.getTrees().size(); cptArbre++) {
-			g2.drawImage(
-					(new ImageIcon("img/tree.png")).getImage(),
-					model.getTrees().get(cptArbre).getXWithDimension(largeur_courante),
-					(hauteur_courante - model.getTrees().get(cptArbre).getYWithDimension(hauteur_courante)), 
-					model.getTrees().get(cptArbre).getWidthWithDimension(largeur_courante), 
-					model.getTrees().get(cptArbre).getHeightWithDimension(hauteur_courante), 
-					this
-					);
-		}
-		*/
-			
-			//g2.drawImage((new ImageIcon("g.png")).getImage(),0, 560+ty, 110, 110, this);
-
-		
 		/* DESSIN DE LA VOITURE */
 		g2.setColor(Color.BLACK);
 		int placementX_cars = model.getData().getRelativePositionPlayer(largeur_courante);
@@ -233,8 +214,6 @@ public class MainView extends JPanel{
 			g.drawString("Metres:"+ kilometre +"m", string_kilo_x, string_y);
 			g.drawString("Vitesse:"+(speed*4)+"km/h", string_speed_x, string_y);
 		}
-		
-		
 		/* DESSIN DU CHECKPOINT */
 		
 		ArrayList<Point> checkpoints = model.getRoad().getCheckPoint().getCheckPointsCoords(
@@ -255,9 +234,6 @@ public class MainView extends JPanel{
 					model.getRoad().getCheckPoint().getHeighCheckPointWithPerspective(hauteur_courante),
 					this);
 		}
-		
-		
-		
 		/* DESSIN DES OISEAUX */
 		
 		for(int cptBird = 0 ; cptBird < model.getBirds().size(); cptBird++) {
@@ -282,10 +258,6 @@ public class MainView extends JPanel{
 							this
 							);
 				}
-				
-				
-				
-				
 			}
 			else {
 				if(model.getBirds().get(cptBird).getAction()) {
@@ -310,13 +282,13 @@ public class MainView extends JPanel{
 			}
 			
 		}
-		
-		
-		
-		
 	}
-
 	
+	
+	/*
+	 * @Param int max_heigth
+	 * Retourne la heuteur de la vue dans une autre dimension 
+	 * */
 	private int getGraphicalHorizonValue(int max_height) {
 		double relative_value = (double) HEIGHT_HORIZON / (double) (HEIGHT);
 		int value = (int) (relative_value * max_height);
@@ -338,18 +310,20 @@ public class MainView extends JPanel{
 	}
 }
 /*
- * Classe utilis� par Affichage qui permet de mettre a jour l'affichage 
- * 
+ * Class ThreadTestModel
+ * Classe utilise par Affichage qui permet de mettre a jour l'affichage 
  * */
 class ThreadTestModel extends Thread{
-	/* Constantes*/
 	
+	/* Constants*/
+	public static final int STEP = 10; /* temps pour le run */
 	public static final int UPDATE_TIME = 10; // 1/100 de seconde
 	
-	/* Attributs */
+	/* Attributes */
 	
-	private MainView vue;
+	private MainView vue; /* vue */
 	
+	/* Constructors */
 	
 	public ThreadTestModel(MainView vue) {
 		this.vue = vue;
@@ -359,7 +333,7 @@ class ThreadTestModel extends Thread{
 	public void run() {
 		try {
 			while(true) {
-				Thread.sleep(10);
+				Thread.sleep(STEP);
 				
 				/* AFFICHAGE DE LA PAGE DE FIN DE JEU */
 				if(vue.getModel().getGame().gameOver() && !vue.getEndGameView().getDisplayed()){

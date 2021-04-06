@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/*
+ * Class TestModel
+ * Classe de test
+ * */
 public class TestModel extends JPanel{
 
 	/* constantes */

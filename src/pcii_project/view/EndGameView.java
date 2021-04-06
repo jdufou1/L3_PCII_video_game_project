@@ -13,36 +13,35 @@ import javax.swing.SwingUtilities;
 
 import pcii_project.models.Model;
 
+/*
+ * Class EndGameView 
+ * Affichage du menu de fin de jeu 
+ * */
 public class EndGameView extends JFrame implements ActionListener{
 
 	
-	/**
-	 * 
-	 */
+	/* Constants */
+	
+	public static final int HEIGHT = 600; /* hauteur de la fenetre */
+	public static final int WIDTH = 600; /* largeur de la fenetre */
+	
 	private static final long serialVersionUID = 1L;
-
-	public static final int HEIGHT = 600;
 	
-	public static final int WIDTH = 600;
+	/* Attributes */
 	
-	/* attributs */
+	private Model model; /* Modele */
+	private JLabel score,checkpoints; /* JLabel des donnees */
+	private JButton quitter,continuer; /* JButton des choix possibles*/
+	private boolean displayed = false; /* Affichage de la fenetre */
 	
-	private MainView mainView;
+	/* Constructors */
 	
-	private Model model;
-	
-	private JLabel score,checkpoints;
-	
-	JButton quitter,continuer;
-	
-	
-	
-	
-	private boolean displayed = false;
-	
+	/*
+	 * @Param MainView mainView
+	 * @Param Model model
+	 * */
 	public EndGameView(MainView mainView,Model model) {
 		super();
-		this.mainView = mainView;
 		this.model = model;
 		setTitle("FIN DE PARTIE");
 		setPreferredSize(new Dimension(WIDTH,HEIGHT));
@@ -81,15 +80,10 @@ public class EndGameView extends JFrame implements ActionListener{
 		
 	}
 	
-	public boolean getDisplayed() {
-		return displayed;
-	}
-	
-	public void setDisplayed(boolean displayed) {
-		this.displayed = displayed;
-	}
-	
-
+	/*
+	 * @Param void
+	 * Mise a jour et affichage des informations du modele dans la fenetre
+	 * */
 	public void display() {
 		score.setText("Votre score final est de : "+model.getData().getScorePlayer()+" m");
 		checkpoints.setText("Nombre de checkpoints franchi : " + model.getData().getNbCheckpointsComplete());
@@ -97,6 +91,10 @@ public class EndGameView extends JFrame implements ActionListener{
 		setVisible(true);
 	}
 
+	/*
+	 * @Param void
+	 * Gestion des boutons
+	 * */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -111,18 +109,13 @@ public class EndGameView extends JFrame implements ActionListener{
 		
 	}
 
+	/* getters et setters */
 	
-	
-	
-	
-	/*
-	public static void main(String[] args) {
-		//EndGameView v = new EndGameView();
-		//v.setVisible(true);
+	public boolean getDisplayed() {
+		return displayed;
 	}
-	*/
 	
-	
-	
-	
+	public void setDisplayed(boolean displayed) {
+		this.displayed = displayed;
+	}
 }

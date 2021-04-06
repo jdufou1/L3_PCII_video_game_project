@@ -1,34 +1,45 @@
 package pcii_project.models;
 
+
+/*
+ * Class game
+ * Modele du deroulement du jeu
+ * */
 public class Game {
 
-	/* constantes */
+	/* Constants */
 	
-	public static final double CHRONO_MAX = 10.0;
+	public static final double CHRONO_MAX = 30.0; /* Temps disponible avant la fin de partie */
 		
-	/* attributs */
-	private Model model;
+	/* Attributes */
 	
-	private Chrono chrono;
+	private Model model; /* Modele */
+	private Chrono chrono; /* Chrono */
+	private ThreadGame threadGame; /* Thread de mise a jour du chrono */
+	private int bonusTime; /* temps bonus gagne par le joueur en franchissant les checkpoints */
+	private boolean endGame; /* fin de partie */
 	
-	private ThreadGame threadGame;
-	
-	private int bonusTime;
-	
-	private boolean endGame;
-	
-	
-	/* constructors */
+	/* Constructors */
 
+	/*
+	 * @param Model model
+	 * */
 	public Game(Model model) {
 		this.model = model;
-		chrono = new Chrono();
-		threadGame = new ThreadGame(this);
+		this.chrono = new Chrono();
+		this.threadGame = new ThreadGame(this);
 		new Thread(threadGame).start();
+		
 		endGame = false;
 		bonusTime = 0;
 	}
 	
+	/* Functions */
+	
+	/*
+	 * @param void
+	 * Lancement d'une nouvelle partie
+	 * */
 	public void newGame() {
 		/* on redefinit les valeurs d'une partie */
 		System.out.println("[DEBUT DE PARTIE] : CHRONO INTIAL : " + CHRONO_MAX  + "s");
@@ -38,16 +49,21 @@ public class Game {
 		endGame = false;
 	}
 	
+	/*
+	 * @param void
+	 * Met fin a la partie
+	 * */
 	public void endGame() {
 		System.out.println("[FIN DE PARTIE]");
 		chrono.stop();
 		threadGame.setActif(false);
 		endGame = true;
-		
-		
-		//newGame();
 	}
 	
+	/*
+	 * @param void
+	 * Demarrage du chrono
+	 * */
 	public void startChrono() {
 		chrono.start();
 	}
@@ -75,29 +91,40 @@ public class Game {
 	}
 }
 
+/*
+ * Class threadGame
+ * Mise a jour du chrono de la partie
+ * */
 class ThreadGame extends Thread{
+	/* Constants */
+	
+	public static final int STEP = 10; /* Temps d'attente pour le run */
 	
 	/* Attributs */
-	private Game game;
 	
+	private Game game;
 	private boolean actif;
 	
 	/* Constructors */
+	
+	/*
+	 * @param Game game
+	 * */
 	public ThreadGame(Game game) {
 		this.game = game;
 		actif = false;
 	}
 	
-
 	@Override 
 	public void run() {
 		try {
 			while(true) {
-				Thread.sleep(10);
+				Thread.sleep(STEP);
 				if(actif)
 				{
+					/* Test si le chrono arrive a terme */
 					if(game.getChrono().getDureeSec() > Game.CHRONO_MAX + game.getBonusTime()) {
-						game.endGame();
+						game.endGame(); /* fin de partie */
 					}
 				}
 			}
@@ -106,6 +133,8 @@ class ThreadGame extends Thread{
 			e.printStackTrace();
 		}
 	}
+	
+	/* setters */
 	
 	public void setActif(boolean actif) {
 		this.actif = actif;

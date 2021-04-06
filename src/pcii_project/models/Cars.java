@@ -2,47 +2,60 @@ package pcii_project.models;
 
 import pcii_project.models.data.DataGame;
 
+
+/*
+ * Class Cars
+ * Modele de la voiture du joueur
+ * */
 public class Cars {
 	
-	/* The constants */
+	/* Constants */
 	
-	public static final int HEIGHT_MAX_CARS = 80;
-	public static final int WIDTH_MAX_CARS = 75;
+	public static final int HEIGHT_MAX_CARS = 80; /* hauteur maximale de la voiture */
+	public static final int WIDTH_MAX_CARS = 75; /* Largeur maximale de la voiture */
+	public static final int PLACEMENTY_CARS = 0; /* Position de la voiture sur laxe des ordonnees*/
+	public static final int STEP_VALUE = 2; /* Valeurs de mouvement sur des deplacements horizontaux */
 	
-	public static final int PLACEMENTY_CARS = 0;
+	/* Attributes */
 	
-	public static final int STEP_VALUE = 2;
-	
-	/* The attributes */
-	
-	private DataGame data;
-	
-	private boolean right = false;
-	
-	private boolean left = false;
-	
-	private boolean slow_active = false;
+	private DataGame data; /* Donnees du joueur */
+	private boolean right = false; /* Si le joueur se deplace vers la droite */
+	private boolean left = false; /* Si le joueur se deplace vers la gauche */
+	private boolean slow_active = false; /* Mode lent */
 	
 	/* Constructor */
+	
+	/*
+	 * @param DataGame data
+	 * */
 	public Cars(DataGame data) {
 		this.data = data;
-		data.setPositionPlayer( (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (WIDTH_MAX_CARS / 2));
+		data.setPositionPlayer( (int) ((Model.WIDTH_MAX - Model.WIDTH_MIN) / 2) - (WIDTH_MAX_CARS / 2)); /* Initialisation de la position du vehicule sur laxe des abscisses*/
 	}
 	
-	/* getters and setters */
-
-
+	/* Functions */
+	
+	/*
+	 * @param void
+	 * Deplace le vehicule vers la droite
+	 * */
 	public void move_right() {
 		data.setPositionPlayer(data.getPositionPlayer() + STEP_VALUE);
 		if(data.getPositionPlayer() > Model.UPPER_BOUND_CARS)
 			data.setPositionPlayer(Model.UPPER_BOUND_CARS);
 	}
 	
+	/*
+	 * @param void
+	 * Deplace le vehicule vers la gauche
+	 * */
 	public void move_left() {
 		data.setPositionPlayer(data.getPositionPlayer() - STEP_VALUE);
 		if(data.getPositionPlayer() < Model.LOWER_BOUND_CARS - WIDTH_MAX_CARS )
 			data.setPositionPlayer(Model.LOWER_BOUND_CARS - WIDTH_MAX_CARS);
 	}
+	
+	/* getters and setters */
 	
 	public int getRelativePlacementY(int max_height) {
 		double relative_y = (double) (PLACEMENTY_CARS)/ (double)(Model.WIDTH_MAX - Model.WIDTH_MIN);

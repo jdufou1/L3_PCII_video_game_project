@@ -1,10 +1,7 @@
 package pcii_project.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,13 +10,22 @@ import pcii_project.models.Model;
 
 import javax.swing.JButton;
 
+/*
+ * Class ContinueView 
+ * Affichage Du menu pause du jeu
+ * */
 public class ContinueView extends JFrame {
 
-	private JPanel contentPane;
+	/* Attributes */
+	
+	private static final long serialVersionUID = 1L;
+	
+	private JPanel contentPane; /* pannel */
 
-
+	/* Constructors */
+	
 	/**
-	 * Create the frame.
+	 * @Param Model model
 	 */
 	public ContinueView(Model model) {
 		setTitle("Menu pause");

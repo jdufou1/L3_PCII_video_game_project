@@ -6,44 +6,42 @@ import java.util.Random;
 
 import pcii_project.models.data.DataGame;
 
+/*
+ * Class Road
+ * Modele de la route
+ * */
 public class Road {
 
-	/* The constants */
+	/* Constants */
 	
-	public static final int HEIGHT_BETWEEN_TWO_POINTS = (Horizon.HEIGHT_HORIZON) / 3;
+	public static final int HEIGHT_BETWEEN_TWO_POINTS = (Horizon.HEIGHT_HORIZON) / 3; /* Hauteur entre deux points */
+	public static final int WIDTH_BETWEEN_TWO_POINTS = (Model.WIDTH_MAX - Model.WIDTH_MIN) / 10; /* Largeur entre deux points */
+	public static final int SPACE_BETWEEN_ROADBOUND = (int) (1.0 / 5.0 * (double) Model.WIDTH_MAX); /* Largeur de la route */
+	public static final int MOVE_STEP_VALUE = 1; /* Valeur de progression du vehicule */
 	
-	public static final int WIDTH_BETWEEN_TWO_POINTS = (Model.WIDTH_MAX - Model.WIDTH_MIN) / 10;
+	/* Attributes */
+
+	private ArrayList<Point> road_points; /* points de la route centrale */
+	private ArrayList<Point> left_bound_road; /* points de la route a gauche */	
+	private ArrayList<Point> right_bound_road; /* points de la route a droite */
+	private Random random; /* generateur de nombre aleatoire */
+	private MoveThread moveThread; /* thread de la route */
+	private DataGame data; /* donnees du joueur */
+	private Acceleration acceleration; /* modele de l'acceleration */
+	private CheckPoint checkpoint; /* modele du checkpoint */
+	private Game game; /* modele du jeu*/
+	private Cars cars; /* modele de la voiture */
+	private ArrayList<Tree> trees; /* en developpement*/
 	
-	public static final int SPACE_BETWEEN_ROADBOUND = (int) (1.0 / 5.0 * (double) Model.WIDTH_MAX);
-	/* The attributes */
-	
-	public static final int MOVE_STEP_VALUE = 1;
-	
-	private ArrayList<Point> road_points;
-	
-	private ArrayList<Point> left_bound_road;
-	
-	private ArrayList<Point> right_bound_road;
-	
-	//private Acceleration acceleration;
-	
-	private Random random;
-	
-	private MoveThread moveThread;
-	
-	private DataGame data;
-	
-	private Acceleration acceleration;
-	
-	private CheckPoint checkpoint;
-	
-	private Game game;
-	
-	private Cars cars;
-	
-	private ArrayList<Tree> trees;
-	
-	/* Constructor */
+	/* Constructors */
+	/*
+	 * @param Model model
+	 * @param DataGame data
+	 * @param Game game
+	 * @param Cars cars
+	 * @param ArrayList<Tree> trees
+	 * Initialisation de la route
+	 * */
 	public Road(Model model,DataGame data,Game game, Cars cars, ArrayList<Tree> trees) {
 		this.data = data;
 		this.game = game;
@@ -51,34 +49,40 @@ public class Road {
 		this.trees = trees;
 		this.checkpoint = new CheckPoint(data,game);
 		this.acceleration = new Acceleration(data,model);
+		this.moveThread = new MoveThread(this);
+		this.random = new Random();	
+		create_road();
+		start_move();
 		data.setPositionPlayer(0);
 		
-		random = new Random();
-		///acceleration = new Acceleration();		
-		create_road();
-		moveThread = new MoveThread(this);
-		start_move();
 	}
-	
-	
-	
+	/*
+	 * @return void
+	 * Fait avancer le joueur sur la route
+	 * */
 	public void move() {
-		//System.out.println(data.get_Kilometer_per_hours() + " km/h");
 		data.setScorePlayer((int)(data.getScorePlayer() + (MOVE_STEP_VALUE * data.getFactorAcceleration())));
 	}
-	
+	/*
+	 * @return void
+	 * Lance le thread pour actualiser les elements de la route
+	 * */
 	public void start_move() {
 		new Thread(moveThread).start();
 	}
-	
+	/*
+	 * @return void
+	 * @param boolean move
+	 * Active les mise a jour de la route dans le thread
+	 * */
 	public void change_value_threadMove(boolean move) {
 		moveThread.setMove(move);
 	}
 	
-	/* CRUD Road */
 	
 	/*
-	 * First Update of the Road list
+	 * @return void
+	 * Creation de la route
 	 * */
 	public void create_road() {
 		road_points = new ArrayList<Point>(); // first creation of road_points
@@ -109,6 +113,10 @@ public class Road {
 		
 	}
 	
+	/*
+	 * @param void
+	 * Mise a jour de la route
+	 * */
 	public void update_road() {
 		// Creation of the points
 		int current_score = road_points.get(road_points.size() - 1).y ;
@@ -143,10 +151,20 @@ public class Road {
 		}
 	}
 	
+	/*
+	 * @param int x_cars
+	 * @return boolean
+	 * Test si la position x_cars est situee a droite ou a gauche de la route
+	 * */
 	public boolean is_offside(int x_cars) {
 		return is_offside_left(x_cars) || is_offside_right(x_cars);	
 	}
 	
+	/*
+	 * @param int x_cars
+	 * @return boolean
+	 * Test si la position x_cars est situee a droite de la route droite
+	 * */
 	public boolean is_offside_right(int x_cars) {
 		ArrayList<Point> points = right_bound_road;
 		Point p1 = points.get(0);
@@ -178,6 +196,11 @@ public class Road {
 		}
 	}
 	
+	/*
+	 * @param int x_cars
+	 * @return boolean
+	 * Test si la position x_cars est situee a gauche de la route gauche
+	 * */
 	public boolean is_offside_left(int x_cars) {
 		ArrayList<Point> points =  left_bound_road;
 		Point p1 = points.get(0);
@@ -222,6 +245,11 @@ public class Road {
 		return right_bound_road;
 	}
 	
+	/*
+	 * @param int score
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route centrale avec les coordonnees du repere du modele en fonction d'un score
+	 * */
 	public ArrayList<Point> getRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : road_points) {
@@ -230,6 +258,11 @@ public class Road {
 		return res;
 	}
 	
+	/*
+	 * @param int score
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route de gauche avec les coordonnees du repere du modele en fonction d'un score
+	 * */
 	public ArrayList<Point> getLeftRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : left_bound_road) {
@@ -242,6 +275,11 @@ public class Road {
 		return res;
 	}
 	
+	/*
+	 * @param int score
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route de droite avec les coordonnees du repere du modele en fonction d'un score
+	 * */
 	public ArrayList<Point> getRightRoad_points_with_score(int score){
 		ArrayList<Point> res = new ArrayList<Point>();
 		for(Point point : right_bound_road) {
@@ -255,7 +293,10 @@ public class Road {
 	}
 	
 	/*
-	 * Model points to graphics points
+	 * @param int max_height
+	 * @param int max_width
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route centrale en fonction de nouvelles dimensions
 	 * */
 	public ArrayList<Point> getRoad_points_with_dimension(int max_height, int max_width){
 		ArrayList<Point> current_points = getRoad_points_with_score(data.getScorePlayer());
@@ -272,6 +313,12 @@ public class Road {
 		return res;
 	}
 	
+	/*
+	 * @param int max_height
+	 * @param int max_width
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route de gauche en fonction de nouvelles dimensions
+	 * */
 	public ArrayList<Point> getLeftRoad_points_with_dimension(int max_height, int max_width){
 		ArrayList<Point> current_points = getLeftRoad_points_with_score(data.getScorePlayer());
 		ArrayList<Point> res = new ArrayList<Point>();
@@ -285,6 +332,12 @@ public class Road {
 		return res;
 	}
 	
+	/*
+	 * @param int max_height
+	 * @param int max_width
+	 * @return ArrayList<Point>
+	 * Retourne les points de la route de droite en fonction de nouvelles dimensions
+	 * */
 	public ArrayList<Point> getRightRoad_points_with_dimension(int max_height, int max_width){
 		ArrayList<Point> current_points = getRightRoad_points_with_score(data.getScorePlayer());
 		ArrayList<Point> res = new ArrayList<Point>();
@@ -299,13 +352,18 @@ public class Road {
 	}
 
 	
-	public int getWidthPerspective(int max_width,int y,int with_object) {
+	/*
+	 * @param int max_width
+	 * @param int y
+	 * @param int width_object
+	 * @return int
+	 * Retourne la largeur d'un objet en fonction de sa distance pour donner un effet de perspective
+	 * */
+	public int getWidthPerspective(int max_width,int y,int width_object) {
 		double y_relative = (double) y / (double) max_width;
 		/* POUR DONNER UN EFFET DE PERSPECTIVE */
-		return (int) (with_object * y_relative);
+		return (int) (width_object * y_relative);
 	}
-	
-	
 	
 	public DataGame getData() {
 		return data;
@@ -334,53 +392,48 @@ public class Road {
 	
 }
 
+
+/*
+ * Class MoveThread
+ * Permet la mise à jour de la route et de ses composants
+ * */
 class MoveThread extends Thread{
-	/* Attributs */
-	private Road road;
 	
-	private boolean move;
+	/* Constants */
 	
-	/* Constructeurs */
+	public static final int STEP = 1; /* Temps d'attente pour le run */
+	
+	/* Attributes */
+	
+	private Road road; /* modele de la route */
+	private boolean move; /* permet l'activation de la mise a jour */
+	
+	/* Constructors */
+	
+	/*
+	 * @Param Road road
+	 * */
 	public MoveThread(Road road) {
 		this.road = road;
-		move = true;
+		move = true; /* Activation de la mise a jour a l'initialisation */
 	}
 	
 	@Override
 	public void run() {
 		try {
 			while(true) {
-				Thread.sleep(1);
+				Thread.sleep(STEP);
 				if(move) {
-					//road.move();
-					road.update_road();
-					road.getCheckPoint().update();
-					/* UPDATE CHECKPOINTS */
-					/*
-					ArrayList<Tree> trees = road.getTrees();
-					for(Tree tree : trees) {
-						tree.update();
-					}
-					*/
-					
-					//System.out.println("Temps restant : " + road.getGame().getTimeremaining() + "s");
-					
-					
-					
-					if(road.is_offside(road.getData().getPositionPlayer())) {
-						road.getAcceleration().decrease_slowly_acceleration();
-						road.getCars().active_slow();
+					road.update_road(); /* mise a jour des points de la route */
+					road.getCheckPoint().update(); /* mise a jour des checkpoints */
+					if(road.is_offside(road.getData().getPositionPlayer())) { /* test si le joueur est hors-route */
+						road.getAcceleration().decrease_slowly_acceleration(); /* le joueur decelere*/
+						road.getCars().active_slow(); /* activation du mode lent du vehicule */
 					}
 					else {
-						road.getCars().disabled_slow();
+						road.getCars().disabled_slow(); /* desactivation de mode lent du vehicule */
 					}
 				}
-					
-					
-				/* DEBUG */
-				//System.out.println(road.getRightRoad_points());
-				//System.out.println("centre : " + road.getRoad_points().size() + "right : " + road.getRightRoad_points().size());
-				
 			}
 		}
 		catch(Exception e) {	
@@ -388,7 +441,7 @@ class MoveThread extends Thread{
 		}
 	}
 	
-	/* getters and setters */
+	/* setters */
 	
 	public void setMove(boolean move) {
 		this.move = move;

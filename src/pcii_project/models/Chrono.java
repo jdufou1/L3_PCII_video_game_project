@@ -1,5 +1,10 @@
 package pcii_project.models;
 
+
+/*
+ * Class Chrono
+ * Permet la gestion d'un chrono
+ * */
 public class Chrono {
 
     private long tempsDepart=0;
@@ -80,4 +85,4 @@ public class Chrono {
         return r;
         }
 
-    } // class Chrono
+}

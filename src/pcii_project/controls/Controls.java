@@ -5,95 +5,79 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import pcii_project.models.Acceleration;
 import pcii_project.models.Model;
-import pcii_project.models.Road;
 import pcii_project.models.TestModel;
-import pcii_project.models.data.DataGame;
 import pcii_project.view.MainView;
 import pcii_project.view.ContinueView;
-import pcii_project.view.StopView;
 
 
 /*
- * Controle : 
- * 
- * SPACE : Mise en pause du model
- * 
+ * Class Controls
+ * Implemente les controles du clavier
+ * Implemente un Thread pour ameliorer le gameplay avec des controleurs simultanees
  * */
-
-
 public class Controls  implements KeyListener {
-
 	
-	/* constantes */
+	/* Attributs */
 	
-	/* parametre par defaut : */
+	private Model model; /* modele du jeu*/
+	private ThreadControls threadControls; /* controle du jeu*/
 	
+	/* Constructors */
 	
-	/* attributs */
-	
-	//private CarModel view;
-	private Model model;
-	private ThreadControls threadControls;
-	
-	
-	
-	
-	
+	/*
+	 * Constructeur pour l'affichage du jeu
+	 * @param  MainView view 
+	 * @params Model model
+	 * */
 	public Controls(MainView view, Model model) {
-		
+		this.model = model;
 		view.getWindows().addKeyListener(this);
-
 		view.getWindows().addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){  
 	          System.exit(0);  
 			}
 		});	
-		
 		this.threadControls = new ThreadControls(model);
-		this.model = model;
-		//this.view = view;
-		
 		new Thread(threadControls).start();
 	}
 	
-	/* test */
+	/*
+	 * Constructeur pour l'affichage test du jeu
+	 * @param  MainView view 
+	 * @params Model model
+	 * */
 	public Controls(TestModel view, Model model) {
-		
-		view.getWindows().addKeyListener(this);
-
-		view.getWindows().addWindowListener(new WindowAdapter(){
+		this.model = model;
+		view.getWindows().addKeyListener(this); /* Ajout de l'ecouteur a la vue */
+		view.getWindows().addWindowListener(new WindowAdapter(){ /* Ajout du controle pour fermer la fenetre du jeu */
 			public void windowClosing(WindowEvent e){  
 	          System.exit(0);  
 			}
 		});	
-		
-		this.threadControls = new ThreadControls(model);
-		this.model = model;
-		//this.view = view;
-		
-		new Thread(threadControls).start();
+		this.threadControls = new ThreadControls(model); /* Creation du thread du controleur */
+		new Thread(threadControls).start(); /* Lancement du Thread */
 	}
 
 	@Override
-	public void keyTyped(KeyEvent evt) {
-		
-		
+	public void keyTyped(KeyEvent evt) {	
+		/* Not used */
 	}
 
+	/*
+	 * Evenement : si une touche du clavier est pressee
+	 * */
 	@Override
 	public void keyPressed(KeyEvent evt) {
+		/* Recuperation du code renvoyee par l'evenement */
 		int keyCode = evt.getKeyCode();
 	    try {
-	    	/* MISE EN PAUSE DU MODEL */
+	    	/* Traitement du code :
+	    	 * La touche presse va etre memorisee dans le thread
+	    	 * */
 	    	if(keyCode == KeyEvent.VK_SPACE) {
-	    		threadControls.set_space();
-
+	    		threadControls.set_space(); 
 	    		ContinueView frame = new ContinueView(model);
-
-	    		//StopView frame = new StopView(model,this);
-
 				frame.setVisible(true);
 	    	}	
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
@@ -107,22 +91,23 @@ public class Controls  implements KeyListener {
 	    	if(keyCode == KeyEvent.VK_UP) {
 	    		threadControls.set_up(true);
 	    	}
-	    	if(keyCode == KeyEvent.VK_A) {
-	    	}
-	    	if(keyCode == KeyEvent.VK_2) {
-	    		//model.getRoad().getAcceleration().lvl2_activation();
-	    	}
 	    }
 	    catch(Exception error) {
 	    	System.out.println(error);
 	    }
-		
 	}
 
+	/*
+	 * Evenement : si une touche du clavier est relachee
+	 * */
 	@Override
 	public void keyReleased(KeyEvent evt) {
+		/* Recuperation du code renvoyee par l'evenement */
 		int keyCode = evt.getKeyCode();
 	    try {
+	    	/* Traitement du code :
+	    	 * La touche relachee va etre memorisee dans le thread
+	    	 * */
 	    	if(keyCode == KeyEvent.VK_RIGHT) {
 	    		threadControls.set_right(false);
 	    		model.getCars().disabledSide();
@@ -138,33 +123,44 @@ public class Controls  implements KeyListener {
 	    catch(Exception error) {
 	    	System.out.println(error);
 	    
-	    }
-		
+	    }	
 	}
 	
 	public void set_space() {
 		this.threadControls.set_space();
 	}
-	
-	
-
 }
 
+
+/*
+ * Thread de la classe Controls
+ * Permet d'utiliser des touches simultanement
+ * */
 class ThreadControls extends Thread{
 	
+	/* Constants */
 	
-	private Model model;
+	public static final int STEP = 10; /* Temps d'attente pour le run */
 	
-	private boolean up = false;
+	/* Attributs */
 	
-	private boolean right = false;
+	private Model model; /* Recuperation du model */
 	
-	private boolean left = false;
+	private boolean up = false; /* Touche : fleche du haut */
 	
-	private boolean space = false;
+	private boolean right = false; /* Touche : fleche de droite */
 	
-	private boolean pause = false;
+	private boolean left = false; /* Touche : fleche de gauche */
 	
+	private boolean space = false; /* Touche : barre d'espace */
+	
+	private boolean pause = false; /* Test pour le jeu en pause */
+	
+	/* Constructors */
+	
+	/*
+	 * @param Model model
+	 * */
 	public ThreadControls(Model model) {
 		this.model = model;
 	}
@@ -173,39 +169,48 @@ class ThreadControls extends Thread{
 	public void run() {
 		try {
 			while(true) {
-				Thread.sleep(10);
+				Thread.sleep(STEP);
+				/* On verifie si le jeu n'est pas en pause et si le jeu n'est pas termine */
 				if(!pause && !model.getGame().gameOver()) {
 					
-					if(right) {
+					if(right) { 
+						/* Deplacement du vehicule du joueur a droite */
 			    		model.getCars().move_right();
 			    	}
 			    	if(left) {
+			    		/* Deplacement du vehicule du joueur a gauche */
 			    		model.getCars().move_left();
 			    	}
 			    	if(up) {
+			    		/* Deplacement du vehicule du joueur vers le haut */
 			    		model.getRoad().move();
+			    		/* Activation de l'augmentation du facteur d'acceleration */
 			    		model.getRoad().getAcceleration().start_acceleration();
-			    		//model.decreaseAllTrees();
 			    	}
 			    	if(!up) {
+			    		/* Si la fleche du haut n'est pas presse: diminuer le facteur d'acceleration */
 			    		model.getRoad().getAcceleration().end_acceleration();
 			    	}
 				}
+				/* Si la barre d'espace est presse : deux option :
+				 * - Activation du menu pause
+				 * - Desactivation du menu pause
+				 * */
 		    	if(space) {
-		    		if(pause) model.continue_progress();
-		    		else model.stop_progress();
-		    		
-		    		pause = !pause;
+		    		if(pause) model.continue_progress(); /* Si le menu pause etait active, on desactive*/
+		    		else model.stop_progress(); /* sinon on active le menu pause */
+		    		/* reset */
+		    		pause = !pause; 
 		    		space = !space;
 		    	}
-				
-				
 			}
 		}
 		catch(Exception e) {	
 			e.printStackTrace();
 		}
 	}
+	
+	/* Setters */
 	
 	public void set_up(boolean up) {
 		this.up = up;
@@ -226,6 +231,4 @@ class ThreadControls extends Thread{
 	public void set_pause() {
 		this.pause =! pause;
 	}
-	
-	
 }

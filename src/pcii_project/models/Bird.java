@@ -1,25 +1,34 @@
 package pcii_project.models;
 
+
+/*
+ * Class Bird
+ * Modele de l'oiseau
+ * */
 public class Bird {
 
-	/* NOMBRE DE FRAME A FAIRE CHANGER */
+	/* Constants */
+	
 	public static final int NB_STEP = 1;
-	
 	public static final int WIDTH = (int)(Model.WIDTH_MAX / 15);
-	
 	public static final int HEIGHT = (int)(Model.HEIGHT_MAX / 15);
 	
-	private int y;
+	/* Attributes */
 	
-	private int x_middle;
+	private int y; /* position y de l'oiseau */ 
+	private int x_middle; /* position x de depart de l'oiseau */
+	private boolean action; /* Mode 0 en aile vers le haut / 1 aile vers le bas */
+	private ThreadBird threadBird; /* Thread qui permet de faire changer le mode de l'oiseau */
+	public boolean direction; /* Mode qui donne la direction de l'oiseau */
 	
-	private boolean action;
+	/* Constructors */
 	
-	private ThreadBird threadBird;
-	
-	/* false : left --- true : right*/
-	public boolean direction;
-	
+	/*
+	 * @param int y
+	 * @param int x_middle
+	 * @param boolean direction
+	 * @boolean action
+	 * */
 	public Bird(int y,int x_middle,boolean direction,boolean action) {
 		this.y = y;
 		this.x_middle = x_middle;
@@ -28,11 +37,15 @@ public class Bird {
 		threadBird = new ThreadBird(this);
 	}
 	
+	/*
+	 * @param void
+	 * Activation du Thread de l'oiseau
+	 * */
 	public void active() {
 		threadBird.start();
 	}
 	
-	
+	/* getters et setters */
 	
 	public boolean getDirection() {
 		return direction;
@@ -88,14 +101,28 @@ public class Bird {
 	
 }
 
+
+/*
+ * Class ThreadBird
+ * Mise a jour de l'oiseau
+ * */
 class ThreadBird extends Thread{
 	
-	public static final double TIME_ACTION = 0.1;
+	/* Constants */
 	
-	private Bird bird;
+	public static final double TIME_ACTION = 0.1; /* Temps pour changer l'etat de l'oiseau */
+	public static final double STEP = 20; /* Temps pour le run */
 	
-	private Chrono chrono;
-	/* Constructeurs */
+	/* Attributes */
+	
+	private Bird bird; /* Modele de l'oiseau */
+	private Chrono chrono; /* Chrono */
+	
+	/* Constructors */
+	
+	/*
+	 * @param Bird bird
+	 * */
 	public ThreadBird(Bird bird) {
 		this.bird = bird;
 		chrono = new Chrono();
@@ -104,16 +131,16 @@ class ThreadBird extends Thread{
 	@Override
 	public void run() {
 		try {
-			chrono.start();
+			chrono.start(); /* demarrage du chrono */
 			while(true) {
 				Thread.sleep(20);
+				/* Change l'etat de l'oiseau */
 				if(chrono.getDureeSec() > TIME_ACTION) {
 					bird.changeAction();
 					chrono.start();
 				}
 				
-				
-				
+				/* Verifications si l'oiseau atteint les bors du modele  et change sa direction */
 				
 				if(bird.getDirection() && (bird.getX() + Bird.WIDTH) < Model.WIDTH_MAX) {
 					bird.setX(bird.getX() + Bird.NB_STEP);
@@ -127,8 +154,6 @@ class ThreadBird extends Thread{
 				else if(!bird.getDirection() && (bird.getX() - Bird.WIDTH) <= Model.WIDTH_MIN) {
 					bird.changeDirection();
 				}
-				
-				
 			}
 		}
 		catch(Exception e) {	

@@ -6,31 +6,34 @@ import java.util.Random;
 
 import pcii_project.models.data.DataGame;
 
+
+/*
+ * Class CheckPoint
+ * Modele du checkpoint
+ * */
 public class CheckPoint {
 	
-	/* constantes */
+	/* Constants */
 
-	public static final int DISTANCE_BETWEEN_CHECKPOINTS = 4 * Model.HEIGHT_MAX;
+	public static final int DISTANCE_BETWEEN_CHECKPOINTS = 4 * Model.HEIGHT_MAX; /* Distance minimale entre deux checkpoints */
+	public static final int HEIGHT_CHECKPOINT = (int) ((double)(1  * (double)Model.HEIGHT_MAX) /12); /* Hauteur du checkpoint dans le repere */
+	public static final int BONUS_TIME = 10; /* Temps bonus pour le joueur si le checkpoint est franchi */
 	
-	public static final int HEIGHT_CHECKPOINT = (int) ((double)(1  * (double)Model.HEIGHT_MAX) /12);
+	/* Attributes */
 	
-	public static final int BONUS_TIME = 10;
+	private DataGame data; /* Donnees du joueur */
+	private Game game; /* Modele de la partie*/
+	private int y_checkpoint; /* Coordonnees y du checkpoint */
+	private int side; /* Definition du cote du checkpoint sur la route : Gauche 0 et Droite 1*/
+	private Random random; /* Generateur aleatoire */	
+	private boolean complete = false; /* Test si le joueur est rentre en collision  avec le checkpoint */
 	
-	/* attributs */
+	/* Constructors */
 	
-	private DataGame data;
-	
-	private Game game;
-	
-	private int y_checkpoint;
-	
-	private int side; // right : 0 / left : 1 
-	
-	private Random random;
-
-	
-	private boolean complete = false;
-	
+	/*
+	 * @param DataGame data
+	 * @param Game game
+	 * */
 	public CheckPoint(DataGame data,Game game) {
 		this.data = data;
 		this.game = game;
@@ -38,6 +41,12 @@ public class CheckPoint {
 		random = new Random();
 	}
 	
+	/* Functions */
+	
+	/*
+	 * @param void
+	 * Met a jour le modele en fonction de la position du joueur et de letat du checkpoint
+	 * */
 	public void update() {
 		if(data.getScorePlayer() > y_checkpoint) {
 			if(complete) {
@@ -53,12 +62,20 @@ public class CheckPoint {
 			System.out.println("[Nombre CheckPoint Franchis]  :"+data.getNbCheckpointsComplete());
 		}
 	}
-	
+
+	/*
+	 * @param void
+	 * Reinitialise la position du checkpoint 
+	 * */
 	public void reset() {
 		y_checkpoint = data.getScorePlayer() + DISTANCE_BETWEEN_CHECKPOINTS;
 	}
 	
-	
+	/*
+	 * @param ArrayList<Point> points
+	 * @return boolean
+	 * Test si le joueur est en colision avec le checkpoint
+	 * */
 	public boolean checkPointComplete(ArrayList<Point> points) {
 		if(points == null) {
 			return false;
@@ -68,11 +85,11 @@ public class CheckPoint {
 		
 		boolean est_dans_la_zone_x = false;
 		boolean est_dans_la_zone_y = false;
+		
 		if(data.getScorePlayer() > y_checkpoint - HEIGHT_CHECKPOINT  && data.getScorePlayer() < y_checkpoint)
 		{
 			est_dans_la_zone_y = true;
 		}
-		
 		if(data.getPositionPlayer() > p1.x && data.getPositionPlayer() < p2.x)
 			est_dans_la_zone_x = true;
 		
@@ -83,8 +100,14 @@ public class CheckPoint {
 	}
 	
 	/*
+	 * @param ArrayList<Point> leftSideRoad
+	 * @param ArrayList<Point> middleSideRoad
+	 * @param ArrayList<Point> rightSideRoad
+	 * @param int score_player
+	 * @param int max_height
+	 * @param int max_width 
 	 * @return null if checkpoint is more higher than graphical limits
-	 * ArrayList<Point> <side> <- get<Side>Road_points_with_score() in Model
+	 * Retourne les coordonnees du checkpoint dans d'autre dimension
 	 * */
 	public ArrayList<Point> getCheckPointsCoords(ArrayList<Point> leftSideRoad, ArrayList<Point> middleSideRoad, ArrayList<Point> rightSideRoad,
 												int score_player,int max_height,int max_width){
@@ -158,6 +181,11 @@ public class CheckPoint {
 		return result;
 	}
 	
+	/* 
+	 * @param int max_height
+	 * @return int
+	 * Retourne la hauteur du checkpoint dans d'autre dimension
+	 * */
 	public int getHeighCheckPointWithPerspective(int max_height) {
 		double y =  (double)HEIGHT_CHECKPOINT / (double) Model.HEIGHT_MAX;
 		double yratecheckpoint = ((double)y_checkpoint - (double)data.getScorePlayer() )/ (double)Model.HEIGHT_MAX;
