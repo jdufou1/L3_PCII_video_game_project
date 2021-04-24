@@ -1,4 +1,4 @@
-# project_pcii
+# Projet de programmation concurentielle et d'interface interactive
 Projet PCII de troisième année de Licence
 Jeu de voiture à la trosième personne
 ![plot](./img/presentation.png)
